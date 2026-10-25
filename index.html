@@ -1,985 +1,551 @@
 <!DOCTYPE html>
-<html lang="tr" class="scroll-smooth">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GNESS Software | PC Bakım Onarım, Web Tasarım & Antivirüs</title>
-    
-    <!-- Tailwind CSS CDN -->
+    <title>GNESS Software | Anti-Cheat Solutions & Web Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Space Grotesk & Fira Code -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brandBg: '#F4EFE6',      /* Görseldeki krem arka plan */
-                        brandCard: '#FAF7F2',    /* Açık kart arka planı */
-                        brandPurple: '#703BF7',  /* Görseldeki mor vurgu rengi */
-                        brandPurpleHover: '#5B2EE0',
-                        brandDark: '#121212',
-                        brandBorder: '#121212'
-                    },
-                    fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        mono: ['Fira Code', 'monospace']
-                    },
-                    boxShadow: {
-                        'neo': '4px 4px 0px 0px #121212',
-                        'neo-lg': '6px 6px 0px 0px #121212',
-                        'neo-purple': '4px 4px 0px 0px #703BF7',
-                    }
-                }
-            }
-        }
-    </script>
-
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
         body {
-            background-color: #F4EFE6;
-            color: #121212;
             font-family: 'Space Grotesk', sans-serif;
-            background-image: radial-gradient(#121212 0.75px, transparent 0.75px);
-            background-size: 24px 24px;
+            background-color: #F5F0E6;
+            color: #121212;
         }
-
         .neo-box {
-            border: 2px solid #121212;
-            box-shadow: 4px 4px 0px 0px #121212;
+            background-color: #F5F0E6;
+            border: 3px solid #121212;
+            box-shadow: 5px 5px 0px #121212;
             transition: all 0.2s ease;
         }
-
         .neo-box:hover {
             transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px 0px #121212;
+            box-shadow: 7px 7px 0px #121212;
         }
-
         .neo-btn {
-            border: 2px solid #121212;
-            box-shadow: 3px 3px 0px 0px #121212;
-            transition: all 0.15s ease;
+            background-color: #703BF7;
+            color: #F5F0E6;
+            border: 3px solid #121212;
+            box-shadow: 4px 4px 0px #121212;
+            font-weight: 700;
+            transition: all 0.1s ease;
         }
-
+        .neo-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #121212;
+        }
         .neo-btn:active {
             transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px 0px #121212;
+            box-shadow: 2px 2px 0px #121212;
         }
-
-        /* Pulsing animation for shield glow */
-        @keyframes shieldGlow {
-            0%, 100% { filter: drop-shadow(0px 0px 15px rgba(112, 59, 247, 0.4)); }
-            50% { filter: drop-shadow(0px 0px 30px rgba(112, 59, 247, 0.8)); }
+        .neo-input {
+            border: 3px solid #121212;
+            box-shadow: 3px 3px 0px #121212;
+            background-color: #ffffff;
         }
-        .shield-glow {
-            animation: shieldGlow 3s infinite ease-in-out;
+        .game-card {
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .game-card-overlay {
+            background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(18,18,18,0.95) 100%);
+        }
+        .chat-scroll {
+            max-height: 280px;
+            overflow-y: auto;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-brandPurple selection:text-white">
+<body class="bg-[#F5F0E6] text-[#121212] min-h-screen flex flex-col justify-between">
 
-    <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-brandDark text-white py-2 px-4 text-xs md:text-sm font-mono border-b-2 border-black flex justify-between items-center">
-        <div class="flex items-center gap-2 overflow-hidden whitespace-nowrap">
-            <span class="bg-brandPurple px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider text-white">YENİ</span>
-            <span>GNESS Shield Antivirüs 2.0 Yayında! Düşük CPU kullanımı ile %100 koruma.</span>
-        </div>
-        <div class="hidden md:flex items-center space-x-4 text-xs">
-            <span><i class="fa-solid fa-location-dot text-brandPurple mr-1"></i> TR / İstanbul / Küçükyalı</span>
-            <span><i class="fa-solid fa-envelope text-brandPurple mr-1"></i> gnesssoftware@outlook.com</span>
-        </div>
-    </div>
-
-    <!-- NAVBAR -->
-    <nav class="sticky top-0 z-40 bg-[#F4EFE6]/95 backdrop-blur-md border-b-2 border-brandDark px-4 lg:px-12 py-3.5">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            
-            <!-- LOGO -->
-            <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 bg-brandPurple border-2 border-brandDark rounded-lg flex items-center justify-center text-white font-black font-mono text-2xl shadow-[3px_3px_0px_0px_#121212] group-hover:rotate-6 transition-transform">
-                    G
-                </div>
-                <div>
-                    <span class="font-black text-xl md:text-2xl tracking-tight text-brandDark block leading-none">GNESS</span>
-                    <span class="text-[10px] font-mono tracking-widest uppercase text-brandPurple font-bold">SOFTWARE</span>
-                </div>
-            </a>
-
-            <!-- NAVIGATION LINKS -->
-            <div class="hidden md:flex items-center space-x-8 font-mono text-sm font-bold">
-                <a href="#hizmetler" class="hover:text-brandPurple transition-colors">Hizmetler</a>
-                <a href="#antivirus" class="hover:text-brandPurple transition-colors flex items-center gap-1">
-                    <i class="fa-solid fa-shield-halved text-brandPurple"></i> Antivirüs
-                </a>
-                <a href="#hakkimizda" class="hover:text-brandPurple transition-colors">Hakkımızda</a>
-                <a href="#iletisim" class="hover:text-brandPurple transition-colors">İletişim</a>
-            </div>
-
-            <!-- ACTION BUTTONS & USER PROFILE -->
+    <!-- Header / Navbar -->
+    <header class="border-b-4 border-[#121212] bg-[#F5F0E6] sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <div id="userStateArea" class="flex items-center gap-2">
-                    <!-- Dynamic Auth State rendered by JS -->
-                    <button onclick="openAuthModal('login')" class="neo-btn bg-white px-4 py-2 text-xs md:text-sm font-mono font-bold rounded-md hover:bg-gray-100 flex items-center gap-2">
-                        <i class="fa-regular fa-user"></i>
-                        <span>GİRİŞ YAP</span>
-                    </button>
-                    <button onclick="openAuthModal('register')" class="neo-btn bg-brandPurple text-white px-4 py-2 text-xs md:text-sm font-mono font-bold rounded-md hover:bg-brandPurpleHover hidden sm:inline-block">
-                        KAYIT OL
-                    </button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-xl neo-btn bg-white rounded-md">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+                <div class="w-10 h-10 bg-[#703BF7] border-3 border-[#121212] flex items-center justify-center font-bold text-xl text-[#F5F0E6] shadow-[3px_3px_0px_#121212]">G</div>
+                <span class="text-2xl font-bold tracking-wider">GNESS SOFTWARE</span>
             </div>
-        </div>
-
-        <!-- Mobile Nav Menu -->
-        <div id="mobileMenu" class="hidden md:hidden pt-4 pb-2 border-t-2 border-brandDark mt-3 font-mono font-bold space-y-2">
-            <a href="#hizmetler" onclick="toggleMobileMenu()" class="block py-2 px-3 hover:bg-brandPurple hover:text-white rounded">Hizmetler</a>
-            <a href="#antivirus" onclick="toggleMobileMenu()" class="block py-2 px-3 hover:bg-brandPurple hover:text-white rounded">Antivirüs Satış</a>
-            <a href="#hakkimizda" onclick="toggleMobileMenu()" class="block py-2 px-3 hover:bg-brandPurple hover:text-white rounded">Hakkımızda</a>
-            <a href="#iletisim" onclick="toggleMobileMenu()" class="block py-2 px-3 hover:bg-brandPurple hover:text-white rounded">İletişim</a>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION (Inspired directly by reference image) -->
-    <section class="max-w-7xl mx-auto px-4 lg:px-12 pt-12 pb-16 md:pt-20 md:pb-24">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <!-- Left Column Text Content -->
-            <div class="lg:col-span-7 space-y-6">
-                <div class="inline-flex items-center gap-2 bg-white px-3 py-1.5 rounded-full neo-box text-xs font-mono font-bold text-brandPurple">
-                    <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping"></span>
-                    GNESS Yazılım & Donanım Çözümleri
+            <div class="flex items-center space-x-3 flex-wrap">
+                <!-- Dil Seçimi -->
+                <div class="flex items-center bg-white border-2 border-black px-2 py-1 shadow-[2px_2px_0px_#121212]">
+                    <i class="fa-solid fa-globe mr-2 text-[#703BF7]"></i>
+                    <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-xs font-bold focus:outline-none cursor-pointer">
+                        <option value="tr">🇹🇷 TR</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="ko">🇰🇷 KO</option>
+                    </select>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-none tracking-tight text-brandDark">
-                    Bilgisayarınız & Web Varlığınız İçin <span class="text-brandPurple bg-white px-2 py-0.5 border-2 border-black rounded inline-block my-1 shadow-[3px_3px_0px_0px_#121212]">Yeni Nesil</span> Çözümler
-                </h1>
+                <button onclick="togglePromoModal()" class="neo-btn px-3 py-2 text-xs bg-yellow-400 text-black" id="btn-promo">Kampanyalar</button>
+                <div id="auth-status" class="text-sm font-bold"></div>
+                <button onclick="toggleAuthModal()" class="neo-btn px-4 py-2 text-sm" id="btn-login">Giriş / Kayıt</button>
+            </div>
+        </div>
+    </header>
 
-                <p class="text-base sm:text-lg text-gray-800 font-medium max-w-2xl leading-relaxed">
-                    GNESS Software; profesyonel PC bakım & onarım, yüksek performanslı web tasarım ve sisteminizi asla yavaşlatmayan yerli antivirüs güvenlik mimarisi sunar.
-                </p>
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-10">
 
-                <!-- Checkmarks list -->
-                <div class="flex flex-wrap gap-4 text-xs sm:text-sm font-mono font-bold pt-2">
-                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        <i class="fa-solid fa-check text-green-600"></i> Donanımsal Bakım
-                    </div>
-                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        <i class="fa-solid fa-check text-green-600"></i> Özel Web Yazılım
-                    </div>
-                    <div class="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        <i class="fa-solid fa-check text-green-600"></i> 7/24 Antivirüs
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="pt-4 flex flex-wrap gap-4 font-mono">
-                    <a href="#iletisim" class="neo-btn bg-brandPurple text-white px-7 py-4 text-base font-bold rounded-lg hover:bg-brandPurpleHover flex items-center gap-3 group">
-                        <span>TEKLİF TALEP EDİN</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    <a href="#hizmetler" class="neo-btn bg-white text-brandDark px-7 py-4 text-base font-bold rounded-lg hover:bg-gray-100">
-                        HİZMETLERİ KEŞFEDİN
-                    </a>
+        <!-- Hero Banner -->
+        <div class="neo-box p-8 bg-white flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="space-y-4 max-w-2xl">
+                <span class="bg-[#703BF7] text-white px-3 py-1 text-xs font-bold border-2 border-black" id="hero-badge">Anti-Cheat & Security Systems</span>
+                <h1 class="text-4xl font-extrabold text-[#121212]" id="hero-title">Gelişmiş Oyun Anti-Cheat & Yazılım Çözümleri</h1>
+                <p class="text-base text-gray-800" id="hero-desc">Knight Online, Metin2, PUBG, Valorant ve CS2 oyunları için makro, hile ve izinsiz müdahaleleri %99.9 oranında engelleyen çekirdek (kernel) seviyesinde koruma sistemleri sunuyoruz.</p>
+                <div class="pt-2 flex gap-3 flex-wrap">
+                    <a href="#games-section" class="neo-btn px-5 py-3 text-sm inline-block" id="hero-btn-games">Desteklenen Oyunlar</a>
+                    <a href="#order-section" class="neo-btn px-5 py-3 text-sm bg-black text-white inline-block" id="hero-btn-buy">Lisans Satın Al</a>
                 </div>
             </div>
-
-            <!-- Right Column Decorative Graphic (Recreating Shield Graphic from image) -->
-            <div class="lg:col-span-5 flex justify-center">
-                <div class="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center">
-                    
-                    <!-- Concentric dotted orbits -->
-                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-brandPurple/40 animate-[spin_30s_linear_infinite]"></div>
-                    <div class="absolute inset-6 rounded-full border-2 border-dotted border-brandDark/30"></div>
-                    
-                    <!-- Shield Container Badge -->
-                    <div class="w-56 h-64 sm:w-64 sm:h-72 bg-brandPurple rounded-2xl border-4 border-brandDark neo-box shield-glow flex flex-col items-center justify-center p-6 text-white text-center relative z-10">
-                        <div class="w-20 h-20 bg-white rounded-full border-3 border-brandDark flex items-center justify-center mb-4 shadow-[3px_3px_0px_0px_#121212]">
-                            <i class="fa-solid fa-shield-halved text-4xl text-brandPurple"></i>
-                        </div>
-                        <span class="font-mono text-xs uppercase tracking-widest text-purple-200">GNESS SHIELD</span>
-                        <h3 class="font-black text-2xl tracking-tight mt-1">TAM KORUMA</h3>
-                        <p class="text-xs font-mono text-purple-100 mt-2">Sıfır Donma, Maksimum Güvenlik</p>
-                        
-                        <!-- Floating Badge on Shield -->
-                        <div class="absolute -bottom-4 bg-white text-brandDark px-4 py-1.5 rounded-full border-2 border-black font-mono font-bold text-xs shadow-[2px_2px_0px_0px_#121212] flex items-center gap-1">
-                            <i class="fa-solid fa-circle-check text-green-500"></i> Aktif Sistem
-                        </div>
-                    </div>
-
-                    <!-- Orbiting Floating Dots -->
-                    <div class="absolute top-4 left-8 w-4 h-4 bg-yellow-400 rounded-full border border-black shadow-[2px_2px_0px_0px_#121212]"></div>
-                    <div class="absolute bottom-8 right-6 w-6 h-6 bg-brandPurple border border-black rounded-full shadow-[2px_2px_0px_0px_#121212]"></div>
-                </div>
+            <div class="w-full md:w-1/3 bg-[#703BF7] text-white p-6 neo-box border-black">
+                <i class="fa-solid fa-shield-virus text-5xl mb-3"></i>
+                <h3 class="text-xl font-bold mb-1">GNESS Shield Anti-Cheat</h3>
+                <p class="text-xs mb-4">Memory Scanning, Kernel Driver, Ring-0 Protection & Real-time AI Fraud Detection.</p>
+                <span class="text-2xl font-extrabold bg-yellow-400 text-black px-3 py-1 border-2 border-black inline-block">₺499 / Ay</span>
             </div>
         </div>
 
-        <!-- STATS GRID (Matching the 4 box stats in screenshot) -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-16">
-            <div class="bg-brandCard p-5 rounded-lg border-2 border-brandDark neo-box text-center">
-                <h4 class="font-mono text-3xl font-black text-brandPurple">7/24</h4>
-                <p class="text-xs font-bold font-mono text-gray-700 mt-1 uppercase">SÜREKLİ CANLI DESTEK</p>
-            </div>
-            <div class="bg-brandCard p-5 rounded-lg border-2 border-brandDark neo-box text-center">
-                <h4 class="font-mono text-3xl font-black text-brandPurple">&lt;%1</h4>
-                <p class="text-xs font-bold font-mono text-gray-700 mt-1 uppercase">CPU KULLANIM ORANI</p>
-            </div>
-            <div class="bg-brandCard p-5 rounded-lg border-2 border-brandDark neo-box text-center">
-                <h4 class="font-mono text-3xl font-black text-brandPurple">100+</h4>
-                <p class="text-xs font-bold font-mono text-gray-700 mt-1 uppercase">TAMAMLANAN PROJE</p>
-            </div>
-            <div class="bg-brandCard p-5 rounded-lg border-2 border-brandDark neo-box text-center">
-                <h4 class="font-mono text-3xl font-black text-brandPurple">%100</h4>
-                <p class="text-xs font-bold font-mono text-gray-700 mt-1 uppercase">DONANIM GARANTİSİ</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- HİZMETLERİMİZ SECTION -->
-    <section id="hizmetler" class="bg-white border-y-2 border-brandDark py-16 px-4 lg:px-12">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <span class="font-mono text-xs font-bold text-brandPurple uppercase tracking-widest bg-brandBg px-3 py-1 rounded border border-black">UZMANLIK ALANLARIMIZ</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-brandDark mt-3">PC Bakım Onarım & Web Tasarım</h2>
-                <p class="text-gray-600 font-medium text-sm sm:text-base mt-2">Donanım arızalarından en karmaşık web yazılım projelerine kadar profesyonel çözümler sunuyoruz.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Card 1: PC Bakım Onarım -->
-                <div class="bg-brandBg p-6 rounded-xl border-2 border-brandDark neo-box flex flex-col justify-between">
-                    <div>
-                        <div class="w-14 h-14 bg-brandPurple text-white rounded-lg border-2 border-black flex items-center justify-center text-2xl font-mono shadow-[3px_3px_0px_0px_#121212] mb-5">
-                            <i class="fa-solid fa-laptop-medical"></i>
-                        </div>
-                        <h3 class="text-xl font-black text-brandDark mb-2">PC Bakım & Donanım Onarım</h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-4">
-                            Masaüstü ve laptop bilgisayarlarınız için detaylı termal macun değişimi, toz temizliği, ekran değişimi, GPU/CPU tamiri ve SSD terfisi.
-                        </p>
-                        <ul class="text-xs font-mono space-y-2 text-gray-800 font-bold mb-6">
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Termal Pad & Macun Yenileme</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Anakart & Chipset Tamiri</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Sıvı Teması Müdahalesi</li>
-                        </ul>
-                    </div>
-                    <button onclick="requestServiceQuote('PC Bakım Onarım')" class="neo-btn bg-white w-full py-2.5 text-xs font-mono font-bold border-2 border-black rounded hover:bg-brandPurple hover:text-white transition-colors">
-                        TEKLİF AL →
-                    </button>
-                </div>
-
-                <!-- Card 2: Özel Web Tasarım -->
-                <div class="bg-brandBg p-6 rounded-xl border-2 border-brandDark neo-box flex flex-col justify-between">
-                    <div>
-                        <div class="w-14 h-14 bg-brandDark text-white rounded-lg border-2 border-black flex items-center justify-center text-2xl font-mono shadow-[3px_3px_0px_0px_#703BF7] mb-5">
-                            <i class="fa-solid fa-code"></i>
-                        </div>
-                        <h3 class="text-xl font-black text-brandDark mb-2">Özel Web Tasarım & Yazılım</h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-4">
-                            Şirketiniz için SEO uyumlu, mobil uyumlu, yıldırım hızında çalışan ultra-modern web siteleri ve E-Ticaret sistemleri geliştiriyoruz.
-                        </p>
-                        <ul class="text-xs font-mono space-y-2 text-gray-800 font-bold mb-6">
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Kurumsal Firma Web Siteleri</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>E-Ticaret & Ödeme Sistemleri</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Özel Yönetim Panelleri</li>
-                        </ul>
-                    </div>
-                    <button onclick="requestServiceQuote('Web Tasarım')" class="neo-btn bg-white w-full py-2.5 text-xs font-mono font-bold border-2 border-black rounded hover:bg-brandPurple hover:text-white transition-colors">
-                        TEKLİF AL →
-                    </button>
-                </div>
-
-                <!-- Card 3: Performans Terfisi & Yazılım -->
-                <div class="bg-brandBg p-6 rounded-xl border-2 border-brandDark neo-box flex flex-col justify-between">
-                    <div>
-                        <div class="w-14 h-14 bg-white text-brandDark rounded-lg border-2 border-black flex items-center justify-center text-2xl font-mono shadow-[3px_3px_0px_0px_#121212] mb-5">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <h3 class="text-xl font-black text-brandDark mb-2">Sistem Optimizasyonu & Format</h3>
-                        <p class="text-sm text-gray-700 leading-relaxed mb-4">
-                            Yavaşlayan bilgisayarlarınızı ilk günkü hızına kavuşturacak lisanslı işletim sistemi kurulumları, sürücü güncellemeleri ve virüs temizliği.
-                        </p>
-                        <ul class="text-xs font-mono space-y-2 text-gray-800 font-bold mb-6">
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Orijinal Windows Entegrasyonu</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Mavi Ekran & Kilitlenme Çözümü</li>
-                            <li><i class="fa-solid fa-check text-brandPurple mr-2"></i>Veri Kurtarma Hizmeti</li>
-                        </ul>
-                    </div>
-                    <button onclick="requestServiceQuote('Sistem Optimizasyonu')" class="neo-btn bg-white w-full py-2.5 text-xs font-mono font-bold border-2 border-black rounded hover:bg-brandPurple hover:text-white transition-colors">
-                        TEKLİF AL →
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ANTİVİRÜS YAZILIM SATIŞ ALANI -->
-    <section id="antivirus" class="py-16 px-4 lg:px-12 max-w-7xl mx-auto">
-        <div class="bg-brandPurple text-white rounded-2xl p-8 lg:p-12 border-3 border-brandDark neo-lg relative overflow-hidden">
-            
-            <!-- Background Decorative Grid -->
-            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
-            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-10">
-                <div class="lg:col-span-8">
-                    <span class="bg-white text-brandDark font-mono text-xs font-bold px-3 py-1 rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        LİSANSLI GÜVENLİK YAZILIMI
-                    </span>
-                    <h2 class="text-3xl sm:text-5xl font-black mt-3 leading-tight">
-                        GNESS Shield Anti-Virus
-                    </h2>
-                    <p class="text-purple-100 font-medium text-sm sm:text-base mt-2 max-w-2xl">
-                        Oyun oynarken veya çalışırken bilgisayarınızı kastırmayan, davranışsal analiz ve bellek bütünlüğü takibi yapan yeni nesil antivirüs yazılımı.
-                    </p>
-                </div>
-                <div class="lg:col-span-4 text-right">
-                    <div class="inline-block bg-brandBg text-brandDark p-4 rounded-xl border-2 border-black font-mono shadow-[4px_4px_0px_0px_#121212] text-left">
-                        <span class="text-xs font-bold text-gray-500 uppercase block">BAŞLANGIÇ FİYATI</span>
-                        <span class="text-3xl font-black text-brandPurple">₺299<span class="text-xs text-gray-700"> /yıl</span></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Software Sales Cards -->
-            <div class="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Plan 1 -->
-                <div class="bg-white text-brandDark p-6 rounded-xl border-2 border-black neo-box flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="font-mono text-xs font-bold bg-gray-200 px-2.5 py-1 rounded border border-black">BİREYSEL</span>
-                            <i class="fa-solid fa-shield text-2xl text-brandPurple"></i>
-                        </div>
-                        <h3 class="text-2xl font-black">Shield Basic</h3>
-                        <p class="text-xs font-mono text-gray-600 mt-1">1 PC İçin Temel Koruma</p>
-                        <div class="text-3xl font-black text-brandDark my-4">₺299 <span class="text-xs font-normal text-gray-500">/yıllık</span></div>
-                        <ul class="text-xs font-mono space-y-2.5 text-gray-700 border-t border-gray-200 pt-4">
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Anlık Gerçek Zamanlı Tarama</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Düşük CPU & RAM Kullanımı</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> USB Otomatik Temizleme</li>
-                            <li class="text-gray-400 line-through"><i class="fa-solid fa-xmark mr-1.5"></i> HWID Ban / Derin Koruma</li>
-                        </ul>
-                    </div>
-                    <button onclick="buySoftware('Shield Basic', '299')" class="neo-btn bg-brandPurple text-white w-full py-3 mt-6 text-xs font-mono font-bold rounded hover:bg-brandPurpleHover">
-                        HEMEN SATIN AL
-                    </button>
-                </div>
-
-                <!-- Plan 2 (Featured) -->
-                <div class="bg-brandBg text-brandDark p-6 rounded-xl border-3 border-black neo-lg relative flex flex-col justify-between transform md:-translate-y-2">
-                    <div class="absolute -top-3 right-4 bg-yellow-400 text-black font-mono text-[10px] font-black px-3 py-0.5 rounded-full border border-black uppercase tracking-wider">
-                        EN ÇOK TERCİH EDİLEN
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="font-mono text-xs font-bold bg-brandPurple text-white px-2.5 py-1 rounded border border-black">PRO OYUNCU</span>
-                            <i class="fa-solid fa-shield-virus text-2xl text-brandPurple"></i>
-                        </div>
-                        <h3 class="text-2xl font-black">Shield Pro Gaming</h3>
-                        <p class="text-xs font-mono text-gray-600 mt-1">3 PC & Oyuncu Modu</p>
-                        <div class="text-3xl font-black text-brandPurple my-4">₺499 <span class="text-xs font-normal text-gray-500">/yıllık</span></div>
-                        <ul class="text-xs font-mono space-y-2.5 text-gray-800 border-t border-gray-300 pt-4 font-bold">
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Gelişmiş Davranışsal Analiz</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Oyunlarda FPS Düşüşü Yapmaz</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> HWID & Kök Düzey Koruma</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> 7/24 VIP Canlı Destek</li>
-                        </ul>
-                    </div>
-                    <button onclick="buySoftware('Shield Pro Gaming', '499')" class="neo-btn bg-brandDark text-white w-full py-3 mt-6 text-xs font-mono font-bold rounded hover:bg-black">
-                        LİSANS AL →
-                    </button>
-                </div>
-
-                <!-- Plan 3 -->
-                <div class="bg-white text-brandDark p-6 rounded-xl border-2 border-black neo-box flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="font-mono text-xs font-bold bg-gray-200 px-2.5 py-1 rounded border border-black">KURUMSAL</span>
-                            <i class="fa-solid fa-building-shield text-2xl text-brandPurple"></i>
-                        </div>
-                        <h3 class="text-2xl font-black">Shield Enterprise</h3>
-                        <p class="text-xs font-mono text-gray-600 mt-1">10 PC + Sunucu Güvenliği</p>
-                        <div class="text-3xl font-black text-brandDark my-4">₺1.299 <span class="text-xs font-normal text-gray-500">/yıllık</span></div>
-                        <ul class="text-xs font-mono space-y-2.5 text-gray-700 border-t border-gray-200 pt-4">
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Merkezi Ağ Güvenlik Duvarı</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Otomatik Veri Yedekleme</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Özel Yerinde Teknik Servis</li>
-                            <li><i class="fa-solid fa-check text-green-600 mr-1.5"></i> Fatura & Sözleşmeli Kurulum</li>
-                        </ul>
-                    </div>
-                    <button onclick="buySoftware('Shield Enterprise', '1299')" class="neo-btn bg-brandPurple text-white w-full py-3 mt-6 text-xs font-mono font-bold rounded hover:bg-brandPurpleHover">
-                        KURUMSAL TEKLİF AL
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- HAKKIMIZDA & NEDEN BİZ SECTION -->
-    <section id="hakkimizda" class="py-16 px-4 lg:px-12 bg-white border-t-2 border-brandDark">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6">
-                <span class="font-mono text-xs font-bold text-brandPurple uppercase tracking-widest bg-brandBg px-3 py-1 rounded border border-black">KURUMSAL YAPIMIZ</span>
-                <h2 class="text-3xl sm:text-4xl font-black text-brandDark">
-                    İstanbul Küçükyalı'dan Tüm Türkiye'ye Dijital Güven & Yazılım
+        <!-- 5 Temel Oyun Koruma Galerisi -->
+        <section id="games-section" class="space-y-4">
+            <div class="flex items-center justify-between border-b-4 border-black pb-2">
+                <h2 class="text-2xl font-bold flex items-center gap-2" id="section-games-title">
+                    <i class="fa-solid fa-gamepad text-[#703BF7]"></i> Desteklenen Oyun Koruma Sistemlerimiz
                 </h2>
-                <p class="text-gray-700 leading-relaxed font-medium">
-                    <strong class="text-brandDark">GNESS Software</strong> olarak, bilgisayar donanımlarının uzun ömürlü çalışmasını sağlamak, şirketleri modern dijital dünyada estetik web tasarımlarıyla öne çıkarmak ve kendi geliştirdiğimiz güvenlik çözümleriyle siber tehditlerden korumak için buradayız.
-                </p>
+                <span class="text-xs font-bold bg-white px-2 py-1 border-2 border-black">5 Aktif Modül</span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- Knight Online -->
+                <div class="neo-box p-4 bg-white flex flex-col justify-between">
+                    <div class="h-32 rounded mb-3 flex items-center justify-center text-white font-extrabold text-xl game-card" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80');">
+                        <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center">Knight Online</div>
+                    </div>
+                    <span class="text-xs font-bold text-[#703BF7]">KO Shield v4.2</span>
+                    <p class="text-xs text-gray-700 mt-1">Koxp, TBL ve Memory injection engelleme.</p>
+                </div>
+
+                <!-- Metin2 -->
+                <div class="neo-box p-4 bg-white flex flex-col justify-between">
+                    <div class="h-32 rounded mb-3 flex items-center justify-center text-white font-extrabold text-xl game-card" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80');">
+                        <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center">Metin2</div>
+                    </div>
+                    <span class="text-xs font-bold text-[#703BF7]">M2 Guard Pro</span>
+                    <p class="text-xs text-gray-700 mt-1">7x, Waithack ve Python injection koruması.</p>
+                </div>
+
+                <!-- PUBG -->
+                <div class="neo-box p-4 bg-white flex flex-col justify-between">
+                    <div class="h-32 rounded mb-3 flex items-center justify-center text-white font-extrabold text-xl game-card" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=400&q=80');">
+                        <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center">PUBG</div>
+                    </div>
+                    <span class="text-xs font-bold text-[#703BF7]">PUBG Shield AI</span>
+                    <p class="text-xs text-gray-700 mt-1">Recoil Macro & Radar tarama engeli.</p>
+                </div>
+
+                <!-- Valorant -->
+                <div class="neo-box p-4 bg-white flex flex-col justify-between">
+                    <div class="h-32 rounded mb-3 flex items-center justify-center text-white font-extrabold text-xl game-card" style="background-image: url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=400&q=80');">
+                        <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center">Valorant</div>
+                    </div>
+                    <span class="text-xs font-bold text-[#703BF7]">ValoBypass Core</span>
+                    <p class="text-xs text-gray-700 mt-1">Color Aimbot & HWID Ban koruması.</p>
+                </div>
+
+                <!-- CS2 -->
+                <div class="neo-box p-4 bg-white flex flex-col justify-between">
+                    <div class="h-32 rounded mb-3 flex items-center justify-center text-white font-extrabold text-xl game-card" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80');">
+                        <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center">CS2</div>
+                    </div>
+                    <span class="text-xs font-bold text-[#703BF7]">CS2 Anti-VAC Plus</span>
+                    <p class="text-xs text-gray-700 mt-1">Sub-tick Wallhack & triggerbot engeli.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kullanılan Yazılım ve Teknolojilerimiz -->
+        <section class="space-y-4">
+            <div class="border-b-4 border-black pb-2">
+                <h2 class="text-2xl font-bold flex items-center gap-2" id="section-tech-title">
+                    <i class="fa-solid fa-code text-[#703BF7]"></i> Kullandığımız Yazılım & Teknoloji Altyapıları
+                </h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-code text-blue-600"></i> C++ (Kernel)
+                </div>
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-code text-purple-600"></i> C# (.NET)
+                </div>
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-python text-yellow-600"></i> Python (AI)
+                </div>
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-html5 text-orange-600"></i> HTML5 / JS
+                </div>
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-android text-green-600"></i> Kotlin
+                </div>
+                <div class="neo-box p-3 bg-white text-center font-bold text-sm flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-php text-indigo-600"></i> PHP (API)
+                </div>
+            </div>
+        </section>
+
+        <!-- Sipariş Formu ve Kartla Ödeme Ekranı -->
+        <div id="order-section" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-2 neo-box p-6 bg-white space-y-4">
+                <h2 class="text-2xl font-bold border-b-2 border-black pb-2" id="order-box-title">Hizmet & Anti-Cheat Lisans Siparişi</h2>
+                <p class="text-xs text-gray-700">Seçtiğiniz oyun koruma paketini veya web/teknik hizmeti anında sipariş edebilirsiniz.</p>
                 
-                <div class="grid grid-cols-2 gap-4 pt-2 font-mono text-xs">
-                    <div class="p-3 bg-brandBg rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        <div class="font-bold text-brandPurple text-sm mb-1">Şeffaf Servis Süreci</div>
-                        Cihazınızın tüm bakım aşamalarını canlı takip edin.
-                    </div>
-                    <div class="p-3 bg-brandBg rounded border border-black shadow-[2px_2px_0px_0px_#121212]">
-                        <div class="font-bold text-brandPurple text-sm mb-1">Orijinal Parça Garantisi</div>
-                        Kullanılan tüm yedek parçalar 2 yıl garantilidir.
-                    </div>
-                </div>
-            </div>
-
-            <!-- Visual Feature Box -->
-            <div class="bg-brandBg p-8 rounded-2xl border-2 border-black neo-lg space-y-4">
-                <h3 class="font-mono font-bold text-lg text-brandDark border-b-2 border-black pb-2 flex justify-between items-center">
-                    <span>SİSTEM DURUMU</span>
-                    <span class="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded font-mono">Çevrimiçi</span>
-                </h3>
-
-                <div class="space-y-3 font-mono text-xs">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span>Sistem Yanıt Süresi</span>
-                            <span class="font-bold text-brandPurple">12ms</span>
-                        </div>
-                        <div class="w-full bg-gray-300 h-2 rounded-full overflow-hidden border border-black">
-                            <div class="bg-brandPurple h-full w-[95%]"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span>Antivirüs Veritabanı Güncelliği</span>
-                            <span class="font-bold text-green-600">%100 Güncel</span>
-                        </div>
-                        <div class="w-full bg-gray-300 h-2 rounded-full overflow-hidden border border-black">
-                            <div class="bg-green-500 h-full w-[100%]"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <span>Müşteri Memnuniyeti</span>
-                            <span class="font-bold text-brandPurple">4.9 / 5.0</span>
-                        </div>
-                        <div class="w-full bg-gray-300 h-2 rounded-full overflow-hidden border border-black">
-                            <div class="bg-brandPurple h-full w-[98%]"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-4 border-t border-gray-300 text-center">
-                    <p class="text-xs font-mono text-gray-600">Teknik ekibimiz şu an İstanbul/Küçükyalı merkezimizde aktif hizmet vermektedir.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- İLETİŞİM SECTION -->
-    <section id="iletisim" class="py-16 px-4 lg:px-12 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- Contact Info Box -->
-            <div class="lg:col-span-5 bg-brandDark text-white p-8 rounded-xl border-2 border-black neo-box flex flex-col justify-between">
-                <div>
-                    <span class="font-mono text-xs font-bold bg-brandPurple text-white px-3 py-1 rounded border border-white uppercase tracking-wider">İLETİŞİME GEÇİN</span>
-                    <h2 class="text-3xl font-black mt-4">Bizimle İletişim Kurun</h2>
-                    <p class="text-gray-300 text-sm mt-2">Sorularınız, PC bakım randevuları veya web tasarım teklifleri için bize 7/24 ulaşabilirsiniz.</p>
-
-                    <div class="mt-8 space-y-5 font-mono text-sm">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-brandPurple rounded border border-white flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-envelope text-white"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 block">E-POSTA ADRESİ</span>
-                                <a href="mailto:gnesssoftware@outlook.com" class="font-bold hover:underline text-white">gnesssoftware@outlook.com</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-600 rounded border border-white flex items-center justify-center shrink-0">
-                                <i class="fa-brands fa-instagram text-white text-lg"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 block">INSTAGRAM HESABI</span>
-                                <a href="https://instagram.com/gunessddogdu" target="_blank" class="font-bold hover:underline text-white">@gunessddogdu</a>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-brandPurple rounded border border-white flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-location-dot text-white"></i>
-                            </div>
-                            <div>
-                                <span class="text-xs text-gray-400 block">MERKEZ OFİS / LOKASYON</span>
-                                <span class="font-bold text-white">TR / İstanbul / Küçükyalı</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-8 border-t border-gray-700 text-xs font-mono text-gray-400">
-                    GNESS Software Yazılım ve Donanım Hizmetleri © 2026
-                </div>
-            </div>
-
-            <!-- Interactive Message Form -->
-            <div class="lg:col-span-7 bg-white p-8 rounded-xl border-2 border-black neo-box">
-                <h3 class="text-2xl font-black text-brandDark mb-2">Hızlı Mesaj Gönderin</h3>
-                <p class="text-xs font-mono text-gray-600 mb-6">Formu doldurun, uzman ekibimiz en geç 30 dakika içerisinde dönüş yapsın.</p>
-
-                <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4 font-mono text-xs">
+                <form id="serviceOrderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block font-bold text-gray-700 mb-1">ADINIZ SOYADINIZ *</label>
-                            <input type="text" required placeholder="Ahmet Yılmaz" class="w-full p-3 bg-brandBg border-2 border-black rounded focus:outline-none focus:border-brandPurple">
+                            <label class="block text-xs font-bold mb-1">Hizmet / Oyun Seçimi</label>
+                            <select id="serviceType" class="neo-input w-full p-2 text-xs">
+                                <option value="Knight Online Anti-Cheat (₺499)">Knight Online Shield - ₺499/Ay</option>
+                                <option value="Metin2 Guard Pro (₺499)">Metin2 Guard Pro - ₺499/Ay</option>
+                                <option value="PUBG Anti-Cheat AI (₺699)">PUBG Anti-Cheat AI - ₺699/Ay</option>
+                                <option value="Valorant ValoBypass (₺799)">Valorant ValoBypass - ₺799/Ay</option>
+                                <option value="CS2 Anti-VAC Plus (₺499)">CS2 Anti-VAC Plus - ₺499/Ay</option>
+                                <option value="PC Bakım ve Format Servisi (₺750)">PC Bakım & Format - ₺750</option>
+                                <option value="Kurumsal Web Tasarım (₺4.999)">Kurumsal Web Tasarım - ₺4.999</option>
+                            </select>
                         </div>
                         <div>
-                            <label class="block font-bold text-gray-700 mb-1">E-POSTA ADRESİNİZ *</label>
-                            <input type="email" required placeholder="ornek@mail.com" class="w-full p-3 bg-brandBg border-2 border-black rounded focus:outline-none focus:border-brandPurple">
+                            <label class="block text-xs font-bold mb-1">Ad Soyad</label>
+                            <input type="text" id="orderName" required class="neo-input w-full p-2 text-xs" placeholder="Adınız Soyadınız">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block font-bold text-gray-700 mb-1">KONU / HİZMET TÜRÜ</label>
-                        <select class="w-full p-3 bg-brandBg border-2 border-black rounded focus:outline-none focus:border-brandPurple font-mono">
-                            <option>PC Bakım & Onarım Talebi</option>
-                            <option>Web Tasarım & Yazılım Teklifi</option>
-                            <option>GNESS Shield Antivirüs Lisansı</option>
-                            <option>Diğer Sorular</option>
-                        </select>
+                        <label class="block text-xs font-bold mb-1">İletişim (E-Posta / Telefon)</label>
+                        <input type="text" id="orderContact" required class="neo-input w-full p-2 text-xs" placeholder="ornek@email.com / 05xx...">
                     </div>
 
-                    <div>
-                        <label class="block font-bold text-gray-700 mb-1">MESAJINIZ *</label>
-                        <textarea rows="4" required placeholder="Talebinizi detaylıca açıklayın..." class="w-full p-3 bg-brandBg border-2 border-black rounded focus:outline-none focus:border-brandPurple"></textarea>
+                    <!-- Kredi Kartı & Sanal Kart Alanı -->
+                    <div class="border-t-2 border-dashed border-black pt-3 mt-3">
+                        <label class="block text-xs font-bold mb-2 flex items-center justify-between">
+                            <span><i class="fa-solid fa-credit-card text-[#703BF7]"></i> Kredi Kartı / Banka Kartı / Sanal Kart ile Öde</span>
+                            <div class="space-x-1 text-xs text-gray-600">
+                                <i class="fa-brands fa-cc-visa text-blue-600 text-sm"></i>
+                                <i class="fa-brands fa-cc-mastercard text-red-500 text-sm"></i>
+                            </div>
+                        </label>
+                        
+                        <div class="space-y-2">
+                            <input type="text" id="cardName" required class="neo-input w-full p-2 text-xs uppercase" placeholder="KART ÜZERİNDEKİ İSİM">
+                            <input type="text" id="cardNumber" required maxlength="19" oninput="formatCardNumber(this)" class="neo-input w-full p-2 text-xs font-mono" placeholder="0000 0000 0000 0000">
+                            
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="cardExp" required maxlength="5" oninput="formatExpDate(this)" class="neo-input w-full p-2 text-xs text-center font-mono" placeholder="AA/YY">
+                                <input type="password" id="cardCvc" required maxlength="4" class="neo-input w-full p-2 text-xs text-center font-mono" placeholder="CVC / CVV">
+                            </div>
+                        </div>
                     </div>
 
-                    <button type="submit" class="neo-btn bg-brandPurple text-white w-full py-3.5 text-sm font-bold rounded hover:bg-brandPurpleHover">
-                        MESAJI GÖNDER →
+                    <button type="submit" class="neo-btn w-full py-3 text-center text-xs flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Güvenli Ödeme Yap ve Lisansı Aktif Et</span>
                     </button>
                 </form>
+
+                <div id="order-success-msg" class="hidden p-4 bg-green-100 border-2 border-black text-center font-bold text-xs space-y-2">
+                    <i class="fa-solid fa-circle-check text-green-700 text-3xl"></i>
+                    <p class="text-sm text-black">Ödemeniz Başarıyla Gerçekleşti!</p>
+                    <p class="text-xs text-gray-700">Lisans anahtarınız ve kurulum dosyanız e-posta adresinize gönderilmiştir.</p>
+                </div>
             </div>
 
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-brandDark text-white border-t-2 border-black pt-12 pb-6 px-4 lg:px-12">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-gray-800">
-            
-            <div class="space-y-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-brandPurple text-white rounded font-mono font-black text-xl flex items-center justify-center border border-white">
-                        G
+            <!-- Sağ İletişim & Şirket Bilgileri -->
+            <div class="neo-box p-6 bg-white flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold border-b-2 border-black pb-2 mb-3">GNESS Software TR</h3>
+                    <p class="text-xs text-gray-700 mb-4">7/24 Kesintisiz Anti-Cheat desteği ve özel yazılım geliştirme hizmetleri.</p>
+                    <div class="space-y-2 text-xs font-bold">
+                        <p><i class="fa-solid fa-envelope text-[#703BF7]"></i> gnesssoftware@outlook.com</p>
+                        <p><i class="fa-brands fa-instagram text-[#703BF7]"></i> @gunessddogdu</p>
+                        <p><i class="fa-solid fa-location-dot text-[#703BF7]"></i> İstanbul / TÜRKİYE</p>
                     </div>
-                    <span class="font-black text-lg">GNESS Software</span>
                 </div>
-                <p class="text-xs text-gray-400 font-mono leading-relaxed">
-                    PC Bakım, Web Tasarım ve Siber Güvenlik çözümlerinde yenilikçi neo-brutalist teknoloji yaklaşımı.
-                </p>
-            </div>
-
-            <div>
-                <h4 class="font-mono font-bold text-sm text-brandPurple mb-3">HIZLI BAĞLANTILAR</h4>
-                <ul class="font-mono text-xs space-y-2 text-gray-300">
-                    <li><a href="#hizmetler" class="hover:text-white">PC Onarım</a></li>
-                    <li><a href="#hizmetler" class="hover:text-white">Web Tasarım</a></li>
-                    <li><a href="#antivirus" class="hover:text-white">Antivirüs İndir</a></li>
-                    <li><a href="#hakkimizda" class="hover:text-white">Kurumsal</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="font-mono font-bold text-sm text-brandPurple mb-3">İLETİŞİM</h4>
-                <ul class="font-mono text-xs space-y-2 text-gray-300">
-                    <li>TR / İstanbul / Küçükyalı</li>
-                    <li>gnesssoftware@outlook.com</li>
-                    <li>Instagram: @gunessddogdu</li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="font-mono font-bold text-sm text-brandPurple mb-3">SOSYAL MEDYA</h4>
-                <div class="flex space-x-3">
-                    <a href="https://instagram.com/gunessddogdu" target="_blank" class="w-9 h-9 bg-gray-800 border border-gray-600 rounded flex items-center justify-center hover:bg-brandPurple transition-colors">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="mailto:gnesssoftware@outlook.com" class="w-9 h-9 bg-gray-800 border border-gray-600 rounded flex items-center justify-center hover:bg-brandPurple transition-colors">
-                        <i class="fa-solid fa-envelope"></i>
-                    </a>
+                <div class="mt-6 pt-4 border-t-2 border-black text-center">
+                    <span class="text-xs font-bold bg-yellow-300 px-2 py-1 border border-black">Official Registered Brand</span>
                 </div>
             </div>
-
         </div>
 
-        <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row justify-between items-center text-xs font-mono text-gray-500">
-            <p>© 2026 GNESS Software. Tüm hakları saklıdır.</p>
-            <p class="mt-2 sm:mt-0">Tasarım & Mimari: GNESS Software Team</p>
-        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t-4 border-[#121212] py-4 bg-[#F5F0E6] text-center text-xs font-bold">
+        <p>&copy; 2026 GNESS Software. Tüm hakları saklıdır. | Istanbul / TR</p>
     </footer>
 
-    <!-- FLOATING WIDGETS (WHATSAPP & CANLI DESTEK) -->
-    <div class="fixed bottom-5 right-5 z-50 flex flex-col gap-3">
-        
-        <!-- WhatsApp Button -->
-        <a href="https://wa.me/905000000000?text=Merhaba,%20GNESS%20Software%20hizmetleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" class="w-13 h-13 p-3 bg-green-500 text-white rounded-full border-2 border-black neo-box flex items-center justify-center text-2xl hover:scale-110 transition-transform" title="WhatsApp İle Bağlan">
-            <i class="fa-brands fa-whatsapp"></i>
-        </a>
-
-        <!-- Live Chat Button -->
-        <button onclick="toggleLiveChat()" class="w-13 h-13 p-3 bg-brandPurple text-white rounded-full border-2 border-black neo-box flex items-center justify-center text-xl hover:scale-110 transition-transform relative" title="Canlı Destek">
-            <i class="fa-solid fa-comments"></i>
-            <span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-400 border border-black rounded-full"></span>
+    <!-- SOL ALT: Anlık Şikayet, Destek & Talep Paneli -->
+    <div class="fixed bottom-4 left-4 z-40">
+        <button onclick="toggleSupportBox()" class="neo-btn px-3 py-2 text-xs bg-red-500 text-white flex items-center gap-2">
+            <i class="fa-solid fa-bullhorn"></i> <span>Şikayet & Talep Bildir</span>
         </button>
-    </div>
-
-    <!-- LIVE CHAT DRAWER / BOX -->
-    <div id="liveChatBox" class="fixed bottom-20 right-5 z-50 w-80 sm:w-96 bg-white border-2 border-black neo-lg rounded-xl hidden flex-col overflow-hidden shadow-2xl">
-        <!-- Chat Header -->
-        <div class="bg-brandDark text-white p-3.5 border-b-2 border-black flex justify-between items-center font-mono">
-            <div class="flex items-center gap-2">
-                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                <span class="font-bold text-sm">GNESS Canlı Destek</span>
-            </div>
-            <button onclick="toggleLiveChat()" class="text-gray-300 hover:text-white text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <!-- Chat Messages -->
-        <div id="chatMessages" class="p-4 h-64 overflow-y-auto space-y-3 font-mono text-xs bg-brandBg">
-            <div class="bg-white p-2.5 rounded-lg border border-black max-w-[85%] shadow-[2px_2px_0px_0px_#121212]">
-                <strong>GNESS Bot:</strong> Merhaba! GNESS Software canlı desteğine hoş geldiniz. Size PC bakım, web tasarım veya antivirüs konusunda nasıl yardımcı olabilirim?
-            </div>
-        </div>
-
-        <!-- Chat Input -->
-        <form onsubmit="sendChatMessage(event)" class="p-2 bg-white border-t-2 border-black flex gap-2">
-            <input id="chatInput" type="text" placeholder="Mesajınızı yazın..." class="flex-1 p-2 border border-black rounded font-mono text-xs focus:outline-none">
-            <button type="submit" class="bg-brandPurple text-white px-3 py-2 font-mono text-xs font-bold rounded border border-black">
-                <i class="fa-solid fa-paper-plane"></i>
-            </button>
-        </form>
-    </div>
-
-    <!-- LOGIN / REGISTER MODAL (EKSİKSİZ AKTİF ÇALIŞAN ÜYE SİSTEMİ) -->
-    <div id="authModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-brandBg border-3 border-black neo-lg rounded-2xl w-full max-w-md overflow-hidden p-6 relative">
-            
-            <!-- Close Modal Button -->
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 w-8 h-8 bg-white border-2 border-black rounded flex items-center justify-center font-mono font-bold hover:bg-red-500 hover:text-white transition-colors">
-                ✕
-            </button>
-
-            <!-- Modal Header Tabs -->
-            <div class="flex border-b-2 border-black pb-4 mb-6 gap-4 font-mono">
-                <button id="loginTabBtn" onclick="switchAuthTab('login')" class="text-lg font-black text-brandPurple border-b-2 border-brandPurple pb-1">
-                    GİRİŞ YAP
-                </button>
-                <button id="registerTabBtn" onclick="switchAuthTab('register')" class="text-lg font-black text-gray-500 hover:text-brandDark pb-1">
-                    KAYIT OL
-                </button>
-            </div>
-
-            <!-- LOGIN FORM -->
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4 font-mono text-xs">
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">E-POSTA ADRESİ *</label>
-                    <input id="loginEmail" type="email" required placeholder="ornek@mail.com" class="w-full p-3 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">ŞİFRE *</label>
-                    <input id="loginPassword" type="password" required placeholder="••••••••" class="w-full p-3 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div id="loginError" class="text-red-600 font-bold hidden"></div>
-
-                <button type="submit" class="neo-btn bg-brandPurple text-white w-full py-3.5 text-sm font-bold rounded hover:bg-brandPurpleHover">
-                    SİSTEME GİRİŞ YAP
-                </button>
+        
+        <div id="supportBox" class="hidden neo-box bg-white p-4 w-80 mt-2 shadow-2xl relative">
+            <button onclick="toggleSupportBox()" class="absolute top-2 right-2 text-xs font-bold bg-black text-white px-2 py-1">X</button>
+            <h4 class="font-bold text-sm mb-2 border-b-2 border-black pb-1">Anlık Destek / Şikayet Paneli</h4>
+            <form onsubmit="handleTicketSubmit(event)" class="space-y-2 text-xs">
+                <input type="text" id="ticketUser" placeholder="Kullanıcı Adı / E-posta" required class="neo-input w-full p-1.5">
+                <select id="ticketType" class="neo-input w-full p-1.5">
+                    <option value="Teknik Destek">Teknik Destek</option>
+                    <option value="Şikayet">Şikayet</option>
+                    <option value="Lisans Bildirimi">Lisans Bildirimi</option>
+                    <option value="Öneri">Öneri / Talep</option>
+                </select>
+                <textarea id="ticketMsg" rows="3" placeholder="Detaylı açıklamanızı yazın..." required class="neo-input w-full p-1.5"></textarea>
+                <button type="submit" class="neo-btn w-full py-1.5 text-xs bg-black text-white">Talebi Gönder</button>
             </form>
-
-            <!-- REGISTER FORM -->
-            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-3 font-mono text-xs hidden">
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">AD SOYAD *</label>
-                    <input id="regName" type="text" required placeholder="Güneş Doğdu" class="w-full p-2.5 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">E-POSTA ADRESİ *</label>
-                    <input id="regEmail" type="email" required placeholder="gnesssoftware@outlook.com" class="w-full p-2.5 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">TELEFON</label>
-                    <input id="regPhone" type="tel" placeholder="0555 000 0000" class="w-full p-2.5 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div>
-                    <label class="block font-bold text-gray-800 mb-1">ŞİFRE OLUŞTUR *</label>
-                    <input id="regPassword" type="password" required placeholder="••••••••" class="w-full p-2.5 bg-white border-2 border-black rounded focus:outline-none focus:border-brandPurple">
-                </div>
-
-                <div id="regSuccess" class="text-green-600 font-bold hidden"></div>
-
-                <button type="submit" class="neo-btn bg-brandDark text-white w-full py-3 text-sm font-bold rounded hover:bg-black">
-                    KAYDI TAMAMLA VE GİRİŞ ET
-                </button>
-            </form>
-
+            <div id="ticketSuccess" class="hidden mt-2 p-2 bg-green-100 border border-black text-xs text-center font-bold">
+                Talebiniz ekibimize ulaştı!
+            </div>
         </div>
     </div>
 
-    <!-- NOTIFICATION TOAST -->
-    <div id="toast" class="fixed top-5 right-5 z-50 bg-brandDark text-white px-5 py-3 rounded-lg border-2 border-white font-mono text-xs hidden shadow-2xl items-center gap-3">
-        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400 text-base"></i>
-        <span id="toastMsg">İşlem başarıyla gerçekleştirildi.</span>
+    <!-- SAĞ ALT: Akıllı Yapay Zeka Canlı Destek Botu -->
+    <div class="fixed bottom-4 right-4 z-40">
+        <button onclick="toggleChatBot()" class="neo-btn p-3 bg-[#703BF7] text-white rounded-full flex items-center justify-center w-12 h-12 text-xl shadow-lg">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <div id="chatBotBox" class="hidden neo-box bg-white w-80 sm:w-96 mt-2 shadow-2xl flex flex-col justify-between">
+            <div class="p-3 bg-[#703BF7] text-white font-bold text-sm border-b-2 border-black flex justify-between items-center">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-robot"></i> GNESS AI Canlı Asistan</span>
+                <button onclick="toggleChatBot()" class="text-xs font-bold bg-black px-2 py-1">X</button>
+            </div>
+
+            <!-- Mesajlaşma Alanı -->
+            <div id="chatMessages" class="p-3 chat-scroll space-y-3 text-xs">
+                <div class="bg-[#F5F0E6] p-2 border border-black rounded">
+                    <strong>GNESS AI:</strong> Merhaba! Ben GNESS Software yapay zeka asistanıyım. Size nasıl yardımcı olabilirim? Aşağıdaki hızlı konulardan birini seçebilir veya sorunuzu yazabilirsiniz:
+                </div>
+            </div>
+
+            <!-- Hızlı Tıklama Butonları -->
+            <div class="p-2 border-t border-black bg-gray-50 flex flex-wrap gap-1">
+                <button onclick="sendQuickMessage('Anti-Cheat nedir?')" class="text-[10px] bg-white border border-black px-1.5 py-0.5 hover:bg-yellow-200">🛡️ Anti-Cheat Nedir?</button>
+                <button onclick="sendQuickMessage('Hangi oyunlar var?')" class="text-[10px] bg-white border border-black px-1.5 py-0.5 hover:bg-yellow-200">🎮 Oyunlar</button>
+                <button onclick="sendQuickMessage('Ödeme nasıl yapılır?')" class="text-[10px] bg-white border border-black px-1.5 py-0.5 hover:bg-yellow-200">💳 Ödeme</button>
+            </div>
+
+            <!-- Yazı Girişi -->
+            <form onsubmit="handleChatSubmit(event)" class="p-2 border-t-2 border-black flex gap-1 bg-white">
+                <input type="text" id="chatInput" placeholder="Mesajınızı yazın..." class="neo-input flex-grow p-1.5 text-xs">
+                <button type="submit" class="neo-btn px-3 text-xs">Gönder</button>
+            </form>
+        </div>
     </div>
 
-    <!-- JAVASCRIPT AUTH & INTERACTION ENGINE -->
+    <!-- Tanıtım ve Kampanya Modalı (Popup) -->
+    <div id="promoModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+        <div class="neo-box bg-white p-6 max-w-md w-full mx-4 relative">
+            <button onclick="togglePromoModal()" class="absolute top-3 right-3 text-sm font-bold bg-[#121212] text-[#F5F0E6] w-7 h-7 flex items-center justify-center border-2 border-black">X</button>
+            <div class="text-center mb-4">
+                <span class="bg-[#703BF7] text-white px-3 py-1 text-xs font-bold border-2 border-black uppercase">Kampanya</span>
+                <h3 class="text-xl font-extrabold mt-2 text-[#121212]">GNESS Anti-Cheat Fırsatları! 🚀</h3>
+            </div>
+            <div class="space-y-2 text-xs mb-4">
+                <div class="p-2 bg-[#F5F0E6] border border-black">
+                    <strong>🎮 Knight Online & Metin2:</strong> Yıllık alımlarda 2 ay bedava lisans!
+                </div>
+                <div class="p-2 bg-[#F5F0E6] border border-black">
+                    <strong>🛡️ CS2 & Valorant:</strong> HWID Ban riskine karşı %100 garanti.
+                </div>
+            </div>
+            <button onclick="togglePromoModal()" class="neo-btn w-full py-2 text-center text-xs">İncelemeye Başla</button>
+        </div>
+    </div>
+
+    <!-- Auth Modal (Giriş / Kayıt) -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="neo-box bg-white p-6 max-w-sm w-full mx-4">
+            <h3 class="text-lg font-bold mb-3">Giriş Yap / Kayıt Ol</h3>
+            <form onsubmit="handleLogin(event)" class="space-y-3">
+                <input type="email" id="loginEmail" placeholder="E-posta adresi" required class="neo-input w-full p-2 text-xs">
+                <input type="password" id="loginPass" placeholder="Şifre" required class="neo-input w-full p-2 text-xs">
+                <button type="submit" class="neo-btn w-full py-2 text-xs">Giriş Yap</button>
+            </form>
+            <button onclick="toggleAuthModal()" class="mt-3 text-xs underline font-bold w-full text-center">Kapat</button>
+        </div>
+    </div>
+
     <script>
-        // State Management for Registered Users in LocalStorage
-        let currentUser = JSON.parse(localStorage.getItem('gness_active_user')) || null;
-
-        // Initialize user UI on DOM load
-        window.onload = function() {
-            updateUserUI();
+        // Dil Çeviri Veritabanı
+        const translations = {
+            tr: {
+                promoBtn: "Kampanyalar",
+                loginBtn: "Giriş / Kayıt",
+                heroTitle: "Gelişmiş Oyun Anti-Cheat & Yazılım Çözümleri",
+                heroDesc: "Knight Online, Metin2, PUBG, Valorant ve CS2 oyunları için makro, hile ve izinsiz müdahaleleri %99.9 oranında engelleyen çekirdek koruma sistemleri.",
+                heroGamesBtn: "Desteklenen Oyunlar",
+                heroBuyBtn: "Lisans Satın Al",
+                sectionGamesTitle: "Desteklenen Oyun Koruma Sistemlerimiz",
+                sectionTechTitle: "Kullandığımız Yazılım & Teknoloji Altyapıları"
+            },
+            en: {
+                promoBtn: "Promotions",
+                loginBtn: "Login / Register",
+                heroTitle: "Advanced Game Anti-Cheat & Software Solutions",
+                heroDesc: "Kernel-level protection system blocking 99.9% of hacks, macros, and injections for Knight Online, Metin2, PUBG, Valorant, and CS2.",
+                heroGamesBtn: "Supported Games",
+                heroBuyBtn: "Buy License",
+                sectionGamesTitle: "Our Game Protection Systems",
+                sectionTechTitle: "Software & Technology Stack"
+            },
+            es: {
+                promoBtn: "Promociones",
+                loginBtn: "Iniciar sesión",
+                heroTitle: "Soluciones Avanzadas de Anti-Cheat y Software",
+                heroDesc: "Protección a nivel de kernel que bloquea el 99.9% de hacks y macros para Knight Online, Metin2, PUBG, Valorant y CS2.",
+                heroGamesBtn: "Juegos Soportados",
+                heroBuyBtn: "Comprar Licencia",
+                sectionGamesTitle: "Sistemas de Protección de Juegos",
+                sectionTechTitle: "Tecnologías Utilizadas"
+            },
+            ko: {
+                promoBtn: "프로모션",
+                loginBtn: "로그인 / 회원가입",
+                heroTitle: "고급 게임 안티치트 및 소프트웨어 솔루션",
+                heroDesc: "Knight Online, Metin2, PUBG, Valorant, CS2를 위한 커널 수준의 99.9% 핵 방지 및 마크로 차단 시스템.",
+                heroGamesBtn: "지원되는 게임",
+                heroBuyBtn: "라이선스 구매",
+                sectionGamesTitle: "게임 보안 시스템",
+                sectionTechTitle: "사용된 기술 스택"
+            }
         };
 
-        function updateUserUI() {
-            const userStateArea = document.getElementById('userStateArea');
-            if (currentUser) {
-                userStateArea.innerHTML = `
-                    <div class="flex items-center gap-2 font-mono text-xs">
-                        <div class="bg-white border-2 border-black px-3 py-1.5 rounded-md font-bold text-brandPurple shadow-[2px_2px_0px_0px_#121212] flex items-center gap-2">
-                            <i class="fa-solid fa-user-check text-green-600"></i>
-                            <span>${currentUser.name}</span>
-                        </div>
-                        <button onclick="logoutUser()" class="neo-btn bg-red-500 text-white p-2 rounded-md hover:bg-red-600" title="Çıkış Yap">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </button>
-                    </div>
-                `;
-            } else {
-                userStateArea.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="neo-btn bg-white px-4 py-2 text-xs md:text-sm font-mono font-bold rounded-md hover:bg-gray-100 flex items-center gap-2">
-                        <i class="fa-regular fa-user"></i>
-                        <span>GİRİŞ YAP</span>
-                    </button>
-                    <button onclick="openAuthModal('register')" class="neo-btn bg-brandPurple text-white px-4 py-2 text-xs md:text-sm font-mono font-bold rounded-md hover:bg-brandPurpleHover hidden sm:inline-block">
-                        KAYIT OL
-                    </button>
-                `;
-            }
+        function changeLanguage(lang) {
+            const data = translations[lang] || translations['tr'];
+            document.getElementById('btn-promo').innerText = data.promoBtn;
+            document.getElementById('btn-login').innerText = data.loginBtn;
+            document.getElementById('hero-title').innerText = data.heroTitle;
+            document.getElementById('hero-desc').innerText = data.heroDesc;
+            document.getElementById('hero-btn-games').innerText = data.heroGamesBtn;
+            document.getElementById('hero-btn-buy').innerText = data.heroBuyBtn;
+            document.getElementById('section-games-title').innerText = data.sectionGamesTitle;
+            document.getElementById('section-tech-title').innerText = data.sectionTechTitle;
         }
 
-        // Modal Controls
-        function openAuthModal(tab) {
-            document.getElementById('authModal').classList.remove('hidden');
-            switchAuthTab(tab);
+        function togglePromoModal() {
+            document.getElementById('promoModal').classList.toggle('hidden');
         }
 
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
+        function toggleAuthModal() {
+            document.getElementById('authModal').classList.toggle('hidden');
         }
 
-        function switchAuthTab(tab) {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const loginBtn = document.getElementById('loginTabBtn');
-            const regBtn = document.getElementById('registerTabBtn');
-
-            if (tab === 'login') {
-                loginForm.classList.remove('hidden');
-                registerForm.classList.add('hidden');
-                loginBtn.className = "text-lg font-black text-brandPurple border-b-2 border-brandPurple pb-1";
-                regBtn.className = "text-lg font-black text-gray-500 hover:text-brandDark pb-1";
-            } else {
-                loginForm.classList.add('hidden');
-                registerForm.classList.remove('hidden');
-                regBtn.className = "text-lg font-black text-brandPurple border-b-2 border-brandPurple pb-1";
-                loginBtn.className = "text-lg font-black text-gray-500 hover:text-brandDark pb-1";
-            }
+        function toggleSupportBox() {
+            document.getElementById('supportBox').classList.toggle('hidden');
         }
 
-        // Handle Registration
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const phone = document.getElementById('regPhone').value;
-            const password = document.getElementById('regPassword').value;
-
-            let users = JSON.parse(localStorage.getItem('gness_registered_users')) || [];
-            
-            // Check if email exists
-            if (users.find(u => u.email === email)) {
-                showToast("Bu e-posta adresi zaten kayıtlı!", "error");
-                return;
-            }
-
-            const newUser = { name, email, phone, password };
-            users.push(newUser);
-            localStorage.setItem('gness_registered_users', JSON.stringify(users));
-
-            // Auto Log In
-            currentUser = newUser;
-            localStorage.setItem('gness_active_user', JSON.stringify(currentUser));
-
-            updateUserUI();
-            closeAuthModal();
-            showToast(`Hoş geldiniz Sayın ${name}! Kaydınız açıldı.`);
+        function toggleChatBot() {
+            document.getElementById('chatBotBox').classList.toggle('hidden');
         }
 
-        // Handle Login
         function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            let users = JSON.parse(localStorage.getItem('gness_registered_users')) || [];
-            
-            // Allow default admin demo if no user registered yet
-            if (users.length === 0 && email === "gnesssoftware@outlook.com" && password === "123456") {
-                currentUser = { name: "Güneş Doğdu (Yönetici)", email, password };
-            } else {
-                const found = users.find(u => u.email === email && u.password === password);
-                if (!found) {
-                    document.getElementById('loginError').innerText = "Hatalı e-posta veya şifre girdiniz.";
-                    document.getElementById('loginError').classList.remove('hidden');
-                    return;
-                }
-                currentUser = found;
-            }
-
-            localStorage.setItem('gness_active_user', JSON.stringify(currentUser));
-            updateUserUI();
-            closeAuthModal();
-            showToast(`Başarıyla giriş yapıldı! Hoş geldiniz.`);
+            localStorage.setItem('gness_user', email);
+            document.getElementById('auth-status').innerText = 'Hoş geldin, ' + email.split('@')[0];
+            toggleAuthModal();
+            alert('Başarıyla giriş yaptınız!');
         }
 
-        // Logout User
-        function logoutUser() {
-            currentUser = null;
-            localStorage.removeItem('gness_active_user');
-            updateUserUI();
-            showToast("Oturum kapatıldı.");
+        function formatCardNumber(input) {
+            let v = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            let matches = v.match(/\d{4,16}/g);
+            let match = matches && matches[0] || '';
+            let parts = [];
+            for (let i = 0, len = match.length; i < len; i += 4) {
+                parts.push(match.substring(i, i + 4));
+            }
+            input.value = parts.length ? parts.join(' ') : v;
         }
 
-        // Toast Helper
-        function showToast(msg, type = "success") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            const toastIcon = document.getElementById('toastIcon');
+        function formatExpDate(input) {
+            let v = input.value.replace(/\s+/g, '').replace(/[^0-9]/g, '');
+            input.value = v.length >= 2 ? v.substring(0, 2) + '/' + v.substring(2, 4) : v;
+        }
 
-            toastMsg.innerText = msg;
-            if (type === "error") {
-                toastIcon.className = "fa-solid fa-triangle-exclamation text-red-400 text-base";
-            } else {
-                toastIcon.className = "fa-solid fa-circle-check text-green-400 text-base";
-            }
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            document.getElementById('serviceOrderForm').classList.add('hidden');
+            document.getElementById('order-success-msg').classList.remove('hidden');
+        }
 
-            toast.classList.remove('hidden');
-            toast.classList.add('flex');
-
+        function handleTicketSubmit(e) {
+            e.preventDefault();
+            document.getElementById('ticketSuccess').classList.remove('hidden');
             setTimeout(() => {
-                toast.classList.add('hidden');
-                toast.classList.remove('flex');
-            }, 3500);
+                document.getElementById('ticketSuccess').classList.add('hidden');
+                toggleSupportBox();
+            }, 2500);
         }
 
-        // Live Chat Drawer Toggle
-        function toggleLiveChat() {
-            const chatBox = document.getElementById('liveChatBox');
-            chatBox.classList.toggle('hidden');
-            chatBox.classList.toggle('flex');
-        }
-
-        // Send Chat Message
-        function sendChatMessage(e) {
+        // Akıllı Yapay Zeka Canlı Destek Botu Algoritması
+        function handleChatSubmit(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
-            if (!msg) return;
+            if(!msg) return;
 
-            const chatMessages = document.getElementById('chatMessages');
+            appendChatMessage('Kullanıcı', msg, 'bg-purple-100');
+            input.value = '';
 
-            // User Message
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.className = "bg-brandPurple text-white p-2.5 rounded-lg border border-black max-w-[85%] ml-auto text-right shadow-[2px_2px_0px_0px_#121212]";
-            userMsgDiv.innerHTML = `<strong>Siz:</strong> ${msg}`;
-            chatMessages.appendChild(userMsgDiv);
-
-            input.value = "";
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            // Simulated AI/Support Reply
             setTimeout(() => {
-                const botMsgDiv = document.createElement('div');
-                botMsgDiv.className = "bg-white p-2.5 rounded-lg border border-black max-w-[85%] shadow-[2px_2px_0px_0px_#121212]";
-                botMsgDiv.innerHTML = `<strong>GNESS Destek:</strong> Talebinizi aldık! Küçükyalı merkez ekibimiz (${currentUser ? currentUser.name : 'Değerli Müşterimiz'}) sorunuzla ilgileniyor. Dilerseniz <strong>gnesssoftware@outlook.com</strong> e-postamızdan doğrudan ulaşabilirsiniz.`;
-                chatMessages.appendChild(botMsgDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000);
+                const botReply = generateAIReply(msg);
+                appendChatMessage('GNESS AI', botReply, 'bg-[#F5F0E6]');
+            }, 600);
         }
 
-        // Service Quote Trigger
-        function requestServiceQuote(serviceName) {
-            if (!currentUser) {
-                openAuthModal('login');
-                showToast("Teklif almak için lütfen önce üye girişi yapın.", "error");
-                return;
+        function sendQuickMessage(text) {
+            appendChatMessage('Kullanıcı', text, 'bg-purple-100');
+            setTimeout(() => {
+                const botReply = generateAIReply(text);
+                appendChatMessage('GNESS AI', botReply, 'bg-[#F5F0E6]');
+            }, 500);
+        }
+
+        function appendChatMessage(sender, text, bgColor) {
+            const container = document.getElementById('chatMessages');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `${bgColor} p-2 border border-black rounded`;
+            msgDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function generateAIReply(text) {
+            const lower = text.toLowerCase();
+            if(lower.includes('merhaba') || lower.includes('selam') || lower.includes('hi') || lower.includes('hello')) {
+                return "Merhaba! GNESS Software'e hoş geldiniz. Oyun Anti-Cheat sistemleri, PC bakımı veya web tasarım konularında size yardımcı olabilirim.";
+            } else if(lower.includes('anti-cheat') || lower.includes('hile') || lower.includes('koruma')) {
+                return "GNESS Shield Anti-Cheat yazılımımız C++ Kernel Driver seviyesinde çalışır. Knight Online, Metin2, PUBG, Valorant ve CS2 oyunlarında %99.9 koruma sağlar.";
+            } else if(lower.includes('oyun') || lower.includes('game')) {
+                return "Şu anda Knight Online, Metin2, PUBG, Valorant ve CS2 oyunları için aktif Anti-Cheat modüllerimiz bulunmaktadır.";
+            } else if(lower.includes('ödeme') || lower.includes('kart') || lower.includes('fiyat')) {
+                return "Sitemiz üzerinden tüm Kredi Kartı, Banka Kartı ve Sanal Kartlar ile 256-Bit SSL güvencesiyle anında ödeme yapabilir ve lisansınızı aktifleştirebilirsiniz.";
+            } else if(lower.includes('destek') || lower.includes('iletişim') || lower.includes('şikayet')) {
+                return "Sol alt taraftaki 'Şikayet & Talep Bildir' butonunu kullanarak doğrudan teknik ekibimize talep iletebilirsiniz.";
+            } else {
+                return "Sorunuzu aldım! Konuyla ilgili detaylı bilgi almak için ana sayfamızdaki Sipariş & Ödeme panelini inceleyebilir veya doğrudan gnesssoftware@outlook.com adresinden bizimle iletişime geçebilirsiniz.";
             }
-            showToast(`${serviceName} için teklif talebiniz alındı! gnesssoftware@outlook.com adresi üzerinden iletişime geçilecektir.`);
         }
 
-        // Antivirus Purchase Trigger
-        function buySoftware(planName, price) {
-            if (!currentUser) {
-                openAuthModal('login');
-                showToast("Lisans satın almak için lütfen üye girişi yapın.", "error");
-                return;
+        window.onload = function() {
+            const savedUser = localStorage.getItem('gness_user');
+            if(savedUser) {
+                document.getElementById('auth-status').innerText = 'Hoş geldin, ' + savedUser.split('@')[0];
             }
-            showToast(`${planName} (₺${price}) siparişiniz oluşturuldu! Lisans anahtarınız e-postanıza gönderildi.`);
-        }
-
-        // Contact Form Handler
-        function handleContactSubmit(e) {
-            e.preventDefault();
-            showToast("Mesajınız GNESS Software ekibine başarıyla iletildi!");
-            e.target.reset();
-        }
-
-        // Mobile Menu Toggle
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
         }
     </script>
 </body>

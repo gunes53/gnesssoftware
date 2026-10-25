@@ -51,19 +51,54 @@
             overflow: hidden;
         }
         .game-card-overlay {
-            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(18,18,18,0.92) 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(18,18,18,0.95) 100%);
         }
         .chat-scroll {
             max-height: 280px;
             overflow-y: auto;
         }
-        @keyframes pulse-shield {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(112, 59, 247, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(112, 59, 247, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(112, 59, 247, 0); }
+        /* Hareketli Kalkan & Yörünge Topu Animasyonu */
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(90px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
         }
-        .animated-shield {
-            animation: pulse-shield 2s infinite;
+        .orbit-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .orbit-ring {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border: 2px dashed rgba(112, 59, 247, 0.5);
+            border-radius: 50%;
+        }
+        .orbit-ball {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: #facc15;
+            border: 2px solid #121212;
+            border-radius: 50%;
+            animation: orbit 4s linear infinite;
+            box-shadow: 0 0 10px #facc15;
+        }
+        .shield-logo {
+            width: 120px;
+            height: 140px;
+            background: linear-gradient(135deg, #703BF7 0%, #4c1d95 100%);
+            border: 3px solid #121212;
+            box-shadow: 4px 4px 0px #121212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         }
     </style>
 </head>
@@ -73,17 +108,19 @@
     <header class="border-b-4 border-[#121212] bg-[#F5F0E6] sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
-                <!-- Hareketli Kurumsal Güvenlik Kalkanı Logosu -->
-                <div class="w-12 h-12 bg-[#703BF7] border-3 border-[#121212] flex items-center justify-center font-bold text-2xl text-[#F5F0E6] shadow-[3px_3px_0px_#121212] rounded-lg animated-shield">
-                    <i class="fa-solid fa-shield-halved"></i>
-                </div>
+                <div class="w-10 h-10 bg-[#703BF7] border-3 border-[#121212] flex items-center justify-center font-bold text-xl text-[#F5F0E6] shadow-[3px_3px_0px_#121212] rounded-lg">G</div>
                 <div>
                     <span class="text-2xl font-extrabold tracking-wider block">GNESS SOFTWARE</span>
-                    <span class="text-[10px] bg-black text-white px-1 py-0.5 font-bold uppercase tracking-widest">Anti-Cheat & Security</span>
+                    <span class="text-[10px] bg-black text-white px-1 py-0.5 font-bold uppercase">Anti-Cheat & Security</span>
                 </div>
             </div>
             
             <div class="flex items-center space-x-3 flex-wrap">
+                <!-- Discord Butonu (Ana Sayfaya Yönlendirir) -->
+                <a href="#" class="neo-btn px-3 py-2 text-xs bg-[#5865F2] text-white flex items-center gap-1.5">
+                    <i class="fa-brands fa-discord"></i> Discord
+                </a>
+
                 <!-- Dil Seçimi -->
                 <div class="flex items-center bg-white border-2 border-black px-2 py-1 shadow-[2px_2px_0px_#121212]">
                     <i class="fa-solid fa-globe mr-2 text-[#703BF7]"></i>
@@ -114,22 +151,28 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-12">
 
-        <!-- Hero Banner -->
-        <div class="neo-box p-8 bg-white flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="space-y-4 max-w-2xl">
+        <!-- Hero Banner + Özgün Hareketli G Logosu -->
+        <div class="neo-box p-8 bg-white flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="space-y-4 max-w-xl">
                 <span class="bg-[#703BF7] text-white px-3 py-1 text-xs font-bold border-2 border-black" id="hero-badge">Kurumsal Yazılım & Kernel Güvenlik Çözümleri</span>
                 <h1 class="text-4xl font-extrabold text-[#121212]" id="hero-title">Geleceğin Dijital ve Oyun Güvenliği Altyapısı</h1>
                 <p class="text-base text-gray-800" id="hero-desc">GNESS Software; kurumsal düzeyde oyun anti-cheat korumaları, profesyonel PC bakım-onarım hizmetleri ve özel web/grafik tasarım çözümleri sunan tescilli bir teknoloji markasıdır.</p>
                 <div class="pt-2 flex gap-3 flex-wrap">
                     <a href="#about-section" class="neo-btn px-5 py-3 text-sm inline-block" id="hero-btn-about">Kurumsal Profil</a>
-                    <a href="#order-section" class="neo-btn px-5 py-3 text-sm bg-black text-white inline-block" id="hero-btn-buy">Hizmet Talep Et</a>
+                    <a href="#demo-section" class="neo-btn px-5 py-3 text-sm bg-yellow-400 text-black inline-block">Anti-Cheat Demo Testi</a>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 bg-[#703BF7] text-white p-6 neo-box border-black text-center">
-                <i class="fa-solid fa-shield-virus text-6xl mb-3 animated-shield inline-block"></i>
-                <h3 class="text-xl font-bold mb-1">Kernel Koruma v5.0</h3>
-                <p class="text-xs mb-4">Memory scanning, makro engelleme ve yapay zeka tabanlı hile tespiti.</p>
-                <span class="text-xs bg-yellow-400 text-black px-2 py-1 border border-black font-bold">%99.9 Engelleme Garantisi</span>
+
+            <!-- İstediğiniz Gibi Tasarlanan Özgün Hareketli "G" Logosu Alanı -->
+            <div class="w-full md:w-1/3 text-center">
+                <div class="orbit-container">
+                    <div class="orbit-ring"></div>
+                    <div class="orbit-ball"></div>
+                    <div class="shield-logo">
+                        <span class="text-5xl font-extrabold text-yellow-300 drop-shadow-[2px_2px_0px_#000]">G</span>
+                    </div>
+                </div>
+                <p class="text-xs font-bold mt-4 tracking-wider">GNESS SHIELD KERNEL ARCHITECTURE</p>
             </div>
         </div>
 
@@ -163,11 +206,11 @@
                 <h2 class="text-2xl font-bold flex items-center gap-2" id="section-games-title">
                     <i class="fa-solid fa-gamepad text-[#703BF7]"></i> Desteklenen Oyun Anti-Cheat Modülleri
                 </h2>
-                <span class="text-xs font-bold bg-white px-2 py-1 border-2 border-black">Orijinal Duvar Kağıdı Görselleri</span>
+                <span class="text-xs font-bold bg-white px-2 py-1 border-2 border-black">Orijinal Oyun Duvar Kağıtları</span>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-                <!-- Knight Online -->
+                <!-- Knight Online Orijinal Görsel -->
                 <div class="neo-box p-4 bg-white flex flex-col justify-between">
                     <div class="h-36 rounded mb-3 flex items-center justify-center text-white font-extrabold text-sm game-card shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80');">
                         <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center border-b-2 border-[#703BF7]">Knight Online</div>
@@ -176,7 +219,7 @@
                     <p class="text-xs text-gray-700 mt-1">Koxp, TBL ve Memory injection engelleme.</p>
                 </div>
 
-                <!-- Metin2 -->
+                <!-- Metin2 Orijinal Görsel -->
                 <div class="neo-box p-4 bg-white flex flex-col justify-between">
                     <div class="h-36 rounded mb-3 flex items-center justify-center text-white font-extrabold text-sm game-card shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80');">
                         <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center border-b-2 border-[#703BF7]">Metin2</div>
@@ -185,7 +228,7 @@
                     <p class="text-xs text-gray-700 mt-1">7x, Waithack ve Python injection koruması.</p>
                 </div>
 
-                <!-- PUBG -->
+                <!-- PUBG Orijinal Görsel -->
                 <div class="neo-box p-4 bg-white flex flex-col justify-between">
                     <div class="h-36 rounded mb-3 flex items-center justify-center text-white font-extrabold text-sm game-card shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=600&q=80');">
                         <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center border-b-2 border-[#703BF7]">PUBG</div>
@@ -194,7 +237,7 @@
                     <p class="text-xs text-gray-700 mt-1">Recoil Macro & Radar tarama engeli.</p>
                 </div>
 
-                <!-- Valorant -->
+                <!-- Valorant Orijinal Görsel -->
                 <div class="neo-box p-4 bg-white flex flex-col justify-between">
                     <div class="h-36 rounded mb-3 flex items-center justify-center text-white font-extrabold text-sm game-card shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=600&q=80');">
                         <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center border-b-2 border-[#703BF7]">Valorant</div>
@@ -203,7 +246,7 @@
                     <p class="text-xs text-gray-700 mt-1">Color Aimbot & HWID Ban koruması.</p>
                 </div>
 
-                <!-- CS2 -->
+                <!-- CS2 Orijinal Görsel -->
                 <div class="neo-box p-4 bg-white flex flex-col justify-between">
                     <div class="h-36 rounded mb-3 flex items-center justify-center text-white font-extrabold text-sm game-card shadow-inner" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80');">
                         <div class="absolute inset-0 game-card-overlay flex items-center justify-center p-2 text-center border-b-2 border-[#703BF7]">CS2</div>
@@ -211,6 +254,40 @@
                     <span class="text-xs font-bold text-[#703BF7]">CS2 Anti-VAC Plus</span>
                     <p class="text-xs text-gray-700 mt-1">Sub-tick Wallhack & triggerbot engeli.</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- ANTI-CHEAT INTERAKTIF DEMO TEST PANELI -->
+        <section id="demo-section" class="neo-box p-6 bg-white space-y-4 border-4 border-[#703BF7]">
+            <div class="border-b-2 border-black pb-2 flex items-center justify-between flex-wrap">
+                <h2 class="text-2xl font-bold flex items-center gap-2 text-[#703BF7]">
+                    <i class="fa-solid fa-microchip"></i> GNESS Shield - İnteraktif Anti-Cheat Demo Testi
+                </h2>
+                <span class="text-xs bg-black text-white px-2 py-1 font-bold">Live Kernel Simulation</span>
+            </div>
+            <p class="text-xs text-gray-700">Sistemimizin çalışma mantığını test etmek için aşağıdaki simülasyonu çalıştırabilir, sanal hafıza taraması ve imza kontrolünü deneyimleyebilirsiniz.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                <div class="neo-box p-4 bg-[#F5F0E6] space-y-3">
+                    <h3 class="font-bold text-sm">1. Sürücü (Driver) Durumu</h3>
+                    <p class="text-xs text-gray-600">Ring-0 çekirdek seviyesi koruma modülü yükleme testi.</p>
+                    <button onclick="runDemoTest('driver')" class="neo-btn w-full py-2 text-xs">Sürücüyü Başlat</button>
+                </div>
+                <div class="neo-box p-4 bg-[#F5F0E6] space-y-3">
+                    <h3 class="font-bold text-sm">2. Memory Tarama Testi</h3>
+                    <p class="text-xs text-gray-600">Bellek bölgesinde unauthorized injection taraması.</p>
+                    <button onclick="runDemoTest('memory')" class="neo-btn w-full py-2 text-xs">Bellek Tara</button>
+                </div>
+                <div class="neo-box p-4 bg-[#F5F0E6] space-y-3">
+                    <h3 class="font-bold text-sm">3. İmza & AI Analizi</h3>
+                    <p class="text-xs text-gray-600">Yapay zeka tabanlı anlık hile imza doğrulaması.</p>
+                    <button onclick="runDemoTest('ai')" class="neo-btn w-full py-2 text-xs">AI Analiz Yap</button>
+                </div>
+            </div>
+
+            <div id="demoResultBox" class="hidden p-4 bg-black text-green-400 font-mono text-xs rounded border-2 border-black space-y-1">
+                <p>> GNESS Kernel Scanner v5.0 başlatılıyor...</p>
+                <p id="demoResultText">> Test sonuçları bekleniyor...</p>
             </div>
         </section>
 
@@ -432,7 +509,7 @@
         </div>
     </div>
 
-    <!-- TANITIM VE KAMPANYA MODALI (AÇILIŞTA VE BUTONLA ÇALIŞAN) -->
+    <!-- TANITIM VE KAMPANYA MODALI -->
     <div id="promoModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
         <div class="neo-box bg-white p-6 max-w-md w-full mx-4 relative">
             <button onclick="togglePromoModal()" class="absolute top-3 right-3 text-sm font-bold bg-[#121212] text-[#F5F0E6] w-7 h-7 flex items-center justify-center border-2 border-black">X</button>
@@ -471,7 +548,7 @@
         </div>
     </div>
 
-    <!-- KAYIT OL MODALI (E-posta/Telefon Doğrulama Özellikli) -->
+    <!-- KAYIT OL MODALI (SMS / E-posta Doğrulamalı) -->
     <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
         <div class="neo-box bg-white p-6 max-w-md w-full mx-4 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAuthModal('register')" class="absolute top-2 right-2 text-xs font-bold bg-black text-white px-2 py-1">X</button>
@@ -505,14 +582,14 @@
                     <input type="password" id="regPass" required class="neo-input w-full p-1.5" placeholder="En az 6 karakterli şifre">
                 </div>
 
-                <!-- E-Posta / SMS Doğrulama Alanı -->
+                <!-- Doğrulama Alanı -->
                 <div class="p-3 bg-[#F5F0E6] border-2 border-black space-y-2 mt-2">
                     <label class="block font-bold text-black flex items-center justify-between">
                         <span><i class="fa-solid fa-shield-check text-[#703BF7]"></i> SMS / E-Posta Doğrulama</span>
                         <button type="button" onclick="sendVerificationCode()" class="text-[10px] bg-black text-white px-2 py-1 font-bold">Kod Gönder</button>
                     </label>
-                    <input type="text" id="verificationCodeInput" placeholder="Telefonunuza/Mailinize gelen 6 haneli kod" class="neo-input w-full p-1.5 text-center font-mono" maxlength="6">
-                    <p id="verificationStatusText" class="text-[10px] text-gray-600">Devam etmek için lütfen doğrulama kodu isteyin.</p>
+                    <input type="text" id="verificationCodeInput" placeholder="6 haneli doğrulama kodu" class="neo-input w-full p-1.5 text-center font-mono" maxlength="6">
+                    <p id="verificationStatusText" class="text-[10px] text-gray-600">Devam etmek için kod isteyin.</p>
                 </div>
 
                 <button type="submit" id="completeRegBtn" class="neo-btn w-full py-2 text-center text-xs mt-2 opacity-50 cursor-not-allowed" disabled>Önce Doğrulama Yapınız</button>
@@ -520,14 +597,12 @@
         </div>
     </div>
 
-    <!-- KİŞİSEL PROFİL KİŞİSELLENDİRME MODALI (ÇIKIŞ BUTONLU) -->
+    <!-- KİŞİSEL PROFİL MODALI (Çıkış Butonlu) -->
     <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
         <div class="neo-box bg-white p-6 max-w-md w-full mx-4 relative">
             <button onclick="closeProfileModal()" class="absolute top-2 right-2 text-xs font-bold bg-black text-white px-2 py-1">X</button>
             <h3 class="text-lg font-bold mb-3 border-b-2 border-black pb-1">Üye Profil & Hesap Bilgileri</h3>
-            <div id="profileDetails" class="space-y-2 text-xs text-gray-800 mb-4 bg-[#F5F0E6] p-3 border border-black">
-                <!-- JS ile doldurulacak -->
-            </div>
+            <div id="profileDetails" class="space-y-2 text-xs text-gray-800 mb-4 bg-[#F5F0E6] p-3 border border-black"></div>
             <button onclick="handleLogout()" class="neo-btn w-full py-2 text-center text-xs bg-red-600 text-white">Güvenli Çıkış Yap</button>
         </div>
     </div>
@@ -541,7 +616,6 @@
                 heroTitle: "Geleceğin Dijital ve Oyun Güvenliği Altyapısı",
                 heroDesc: "GNESS Software; kurumsal düzeyde oyun anti-cheat korumaları, profesyonel PC bakım-onarım hizmetleri ve özel web/grafik tasarım çözümleri sunan tescilli bir teknoloji markasıdır.",
                 heroAboutBtn: "Kurumsal Profil",
-                heroBuyBtn: "Hizmet Talep Et",
                 sectionGamesTitle: "Desteklenen Oyun Anti-Cheat Modülleri",
                 sectionTechTitle: "Kullandığımız Yazılım & Teknoloji Altyapıları"
             },
@@ -552,7 +626,6 @@
                 heroTitle: "The Future of Digital and Game Security Infrastructure",
                 heroDesc: "GNESS Software is a registered technology brand providing corporate anti-cheat protection, professional PC repair, and custom web/graphic design.",
                 heroAboutBtn: "Corporate Profile",
-                heroBuyBtn: "Request Service",
                 sectionGamesTitle: "Supported Game Anti-Cheat Modules",
                 sectionTechTitle: "Software & Technology Stack"
             },
@@ -563,7 +636,6 @@
                 heroTitle: "El Futuro de la Infraestructura de Seguridad Digital y de Juegos",
                 heroDesc: "GNESS Software es una marca de tecnología registrada que ofrece protección anti-cheat, reparación de PC y diseño web.",
                 heroAboutBtn: "Perfil Corporativo",
-                heroBuyBtn: "Solicitar Servicio",
                 sectionGamesTitle: "Módulos Anti-Cheat Soportados",
                 sectionTechTitle: "Tecnologías Utilizadas"
             },
@@ -574,7 +646,6 @@
                 heroTitle: "디지털 및 게임 보안 인프라의 미래",
                 heroDesc: "GNESS Software는 기업용 안티치트 보호, 전문 PC 수리 및 맞춤형 웹/그래픽 디자인을 제공하는 공인 기술 브랜드입니다.",
                 heroAboutBtn: "기업 프로필",
-                heroBuyBtn: "서비스 요청",
                 sectionGamesTitle: "지원되는 게임 안티치트 모듈",
                 sectionTechTitle: "사용된 기술 스택"
             }
@@ -588,7 +659,6 @@
             document.getElementById('hero-title').innerText = data.heroTitle;
             document.getElementById('hero-desc').innerText = data.heroDesc;
             document.getElementById('hero-btn-about').innerText = data.heroAboutBtn;
-            document.getElementById('hero-btn-buy').innerText = data.heroBuyBtn;
             document.getElementById('section-games-title').innerText = data.sectionGamesTitle;
             document.getElementById('section-tech-title').innerText = data.sectionTechTitle;
         }
@@ -615,12 +685,10 @@
                 alert('Lütfen önce E-Posta ve Telefon numaranızı giriniz!');
                 return;
             }
-            // Simülasyon doğrulama kodu
-            alert('Doğrulama kodunuz telefonunuza ve e-postanıza gönderilmiştir! (Simülasyon Kodunuz: 543210)');
-            const codeInput = document.getElementById('verificationCodeInput');
-            codeInput.value = "543210"; // Test kolaylığı için otomatik doldurur
+            alert('Doğrulama kodunuz gönderildi! (Simülasyon Kodunuz: 543210)');
+            document.getElementById('verificationCodeInput').value = "543210";
             isVerified = true;
-            document.getElementById('verificationStatusText').innerText = "✅ Doğrulama başarılı! Kaydı tamamlayabilirsiniz.";
+            document.getElementById('verificationStatusText').innerText = "✅ Doğrulama başarılı!";
             document.getElementById('verificationStatusText').className = "text-[10px] text-green-700 font-bold";
             
             const regBtn = document.getElementById('completeRegBtn');
@@ -649,7 +717,7 @@
         function handleRegister(e) {
             e.preventDefault();
             if(!isVerified) {
-                alert('Lütfen SMS/E-posta doğrulamasını tamamlayınız!');
+                alert('Lütfen doğrulama yapınız!');
                 return;
             }
             const userData = {
@@ -661,10 +729,9 @@
             };
             localStorage.setItem('gness_user_profile', JSON.stringify(userData));
             localStorage.setItem('gness_user', userData.email);
-            
             closeAuthModal('register');
             updateAuthUI(userData.email);
-            alert('Kayıt işleminiz başarıyla tamamlandı ve giriş yapıldı!');
+            alert('Kayıt başarıyla tamamlandı!');
         }
 
         function handleLogin(e) {
@@ -675,7 +742,6 @@
             profile.name = profile.name || email.split('@')[0];
             localStorage.setItem('gness_user_profile', JSON.stringify(profile));
             localStorage.setItem('gness_user', email);
-
             closeAuthModal('login');
             updateAuthUI(email);
             alert('Başarıyla giriş yaptınız!');
@@ -686,16 +752,33 @@
             document.getElementById('auth-container').classList.remove('hidden');
             document.getElementById('user-profile-widget').classList.add('hidden');
             closeProfileModal();
-            alert('Hesabınızdan güvenle çıkış yapıldı.');
+            alert('Çıkış yapıldı.');
         }
 
         function updateAuthUI(email) {
             if(email) {
                 document.getElementById('auth-container').classList.add('hidden');
                 document.getElementById('user-profile-widget').classList.remove('hidden');
-                const namePart = email.split('@')[0];
-                document.getElementById('user-welcome-text').innerText = 'Sayın, ' + namePart;
+                document.getElementById('user-welcome-text').innerText = 'Sayın, ' + email.split('@')[0];
             }
+        }
+
+        // Anti-Cheat Canlı Demo Test Simülasyonu
+        function runDemoTest(type) {
+            const box = document.getElementById('demoResultBox');
+            const txt = document.getElementById('demoResultText');
+            box.classList.remove('hidden');
+            txt.innerHTML = "> Test yürütülüyor...";
+
+            setTimeout(() => {
+                if(type === 'driver') {
+                    txt.innerHTML = "✅ [SUCCESS] Ring-0 Kernel Driver başarıyla yüklendi. İmza doğrulandı (OK).";
+                } else if(type === 'memory') {
+                    txt.innerHTML = "✅ [SUCCESS] Bellek taraması tamamlandı. 0 adet tehdit / injection tespit edildi.";
+                } else if(type === 'ai') {
+                    txt.innerHTML = "✅ [SUCCESS] Yapay Zeka anlık imza analizi aktif. Sistem %99.9 koruma altında.";
+                }
+            }, 1000);
         }
 
         function formatCardNumber(input) {
@@ -742,10 +825,8 @@
             const input = document.getElementById('chatInput');
             const msg = input.value.trim();
             if(!msg) return;
-
             appendChatMessage('Kullanıcı', msg, 'bg-purple-100');
             input.value = '';
-
             setTimeout(() => {
                 const botReply = generateAIReply(msg);
                 appendChatMessage('GNESS AI', botReply, 'bg-[#F5F0E6]');
@@ -771,14 +852,10 @@
 
         function generateAIReply(text) {
             const lower = text.toLowerCase();
-            if(lower.includes('merhaba') || lower.includes('selam') || lower.includes('hi')) {
-                return "Merhaba! GNESS Software kurumsal destek hattına hoş geldiniz. Anti-Cheat, PC Tamir veya Web Tasarım konularında size nasıl yardımcı olabilirim?";
+            if(lower.includes('merhaba') || lower.includes('selam')) {
+                return "Merhaba! GNESS Software destek hattına hoş geldiniz. Size nasıl yardımcı olabilirim?";
             } else if(lower.includes('anti-cheat') || lower.includes('hile')) {
-                return "Anti-Cheat yazılımlarımız C++ Kernel Driver seviyesinde çalışır. Knight Online, Metin2, PUBG, Valorant ve CS2 oyunlarında %99.9 koruma sağlar.";
-            } else if(lower.includes('pc') || lower.includes('tamir') || lower.includes('format')) {
-                return "Bilgisayar bakım, onarım, donanım yükseltme ve format servisimizle cihazınızı kurumsal standartlarda yeniliyoruz.";
-            } else if(lower.includes('web') || lower.includes('logo') || lower.includes('tasarım')) {
-                return "İşletmenize özel kurumsal web tasarım ile özgün logo ve grafik tasarım hizmetleri sunuyoruz.";
+                return "Anti-Cheat yazılımlarımız C++ Kernel Driver seviyesinde çalışır. Knight, Metin2, PUBG, Valorant ve CS2'de %99.9 koruma sağlar.";
             } else {
                 return "Talebinizi aldım! Detaylı bilgi için sipariş panelini kullanabilir veya gnesssoftware@outlook.com üzerinden bize ulaşabilirsiniz.";
             }

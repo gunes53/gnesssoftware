@@ -4,23 +4,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gnesssoftware — Hile Koruması, Web & Logo Tasarımı</title>
+
+    <!-- Tab Favicon (G Harfi) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%237C3AED' rx='20'/><text x='50%' y='68%' font-size='65' font-weight='900' fill='%23ffffff' font-family='sans-serif' text-anchor='middle'>G</text></svg>">
+
+    <!-- Fonts & Tailwind CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        :root { --bg-color: #F5EFE6; --purple-main: #7C3AED; --purple-hover: #6D28D9; --border-color: #000000; }
-        body { background-color: var(--bg-color); background-image: radial-gradient(#000 0.85px, transparent 0.85px); background-size: 24px 24px; font-family: 'JetBrains Mono', monospace; color: #000; }
-        .heading-font { font-family: 'Space Grotesk', sans-serif; }
-        .nb-box { background-color: #F5EFE6; border: 3px solid #000; box-shadow: 5px 5px 0px 0px #000; transition: all 0.15s ease-in-out; }
-        .nb-box-purple { background-color: var(--purple-main); color: #fff; border: 3px solid #000; box-shadow: 5px 5px 0px 0px #000; }
-        .nb-btn { background-color: var(--purple-main); color: #fff; border: 3px solid #000; box-shadow: 4px 4px 0px 0px #000; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.1s ease; }
-        .nb-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px 0px #000; background-color: var(--purple-hover); }
-        .nb-btn-outline { background-color: #fff; color: #000; border: 3px solid #000; box-shadow: 4px 4px 0px 0px #000; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.1s ease; }
-        .nb-btn-outline:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px 0px #000; background-color: #F3EFE0; }
-        .nb-input { border: 3px solid #000; background: #fff; padding: 10px 14px; font-weight: 600; outline: none; width: 100%; box-shadow: 3px 3px 0px 0px #000; }
-        .fixed-left-btn { position: fixed; left: -42px; top: 45%; transform: rotate(-90deg); z-index: 40; }
+        :root {
+            --bg-color: #F5EFE6;
+            --purple-main: #7C3AED;
+            --purple-hover: #6D28D9;
+            --border-color: #000000;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#000 0.85px, transparent 0.85px);
+            background-size: 24px 24px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #000;
+        }
+
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Neo-Brutalist Stiller */
+        .nb-box {
+            background-color: #F5EFE6;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px 0px #000;
+            transition: all 0.15s ease-in-out;
+        }
+
+        .nb-box-purple {
+            background-color: var(--purple-main);
+            color: #fff;
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px 0px #000;
+        }
+
+        .nb-btn {
+            background-color: var(--purple-main);
+            color: #fff;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px 0px #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .nb-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #000;
+            background-color: var(--purple-hover);
+        }
+
+        .nb-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #000;
+        }
+
+        .nb-btn-outline {
+            background-color: #fff;
+            color: #000;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px 0px #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .nb-btn-outline:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px #000;
+            background-color: #F3EFE0;
+        }
+
+        .nb-input {
+            border: 3px solid #000;
+            background: #fff;
+            padding: 10px 14px;
+            font-weight: 600;
+            outline: none;
+            width: 100%;
+            box-shadow: 3px 3px 0px 0px #000;
+        }
+
+        .nb-input:focus {
+            border-color: var(--purple-main);
+            box-shadow: 5px 5px 0px 0px var(--purple-main);
+        }
+
+        .fixed-left-btn {
+            position: fixed;
+            left: -42px;
+            top: 45%;
+            transform: rotate(-90deg);
+            z-index: 40;
+        }
+
+        /* GÖZE ÇARPAN DİNAMİK ANIMASYONLAR */
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        @keyframes pulse-scale {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes slow-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-float {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        .animate-pulse-scale {
+            animation: pulse-scale 2.5s ease-in-out infinite;
+        }
+
+        .animate-spin-slow {
+            animation: slow-rotate 25s linear infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #F5EFE6; border-left: 2px solid #000; }
+        ::-webkit-scrollbar-thumb { background: #7C3AED; border: 2px solid #000; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -129,26 +252,44 @@
                 </div>
             </div>
 
+            <!-- GÖZE ÇARPAN HAREKETLİ G LOGOLU KART BİLEŞENİ -->
             <div class="md:col-span-5 flex justify-center">
                 <div class="relative w-full max-w-sm">
-                    <div class="w-72 h-72 md:w-80 md:h-80 rounded-full border-4 border-dashed border-purple-400 bg-purple-100 mx-auto flex items-center justify-center p-6 relative">
-                        <div class="w-56 h-72 nb-box-purple rounded-3xl flex flex-col items-center justify-center gap-4 text-center p-4">
-                            <div class="text-6xl">🛡️</div>
-                            <span class="font-black text-xl tracking-wider">GNESS AC</span>
-                            <span class="bg-black text-green-400 px-3 py-1 text-[10px] font-bold rounded">SİSTEM KORUMADA</span>
-                        </div>
-                        <div class="absolute -top-3 left-0 nb-box bg-yellow-300 px-3 py-1 text-[11px] font-black">
-                            🔒 DONANIM YASAKLAMA SİSTEMİ
-                        </div>
-                        <div class="absolute -bottom-3 right-0 nb-box bg-emerald-300 px-3 py-1 text-[11px] font-black">
-                            ⚡ %0.1 GECİKME
+                    <!-- Arka Plandaki Dönen Çember -->
+                    <div class="w-72 h-72 md:w-80 md:h-80 rounded-full border-4 border-dashed border-purple-500 bg-purple-100 mx-auto animate-spin-slow"></div>
+
+                    <!-- Ana Kart (Süzülme Animasyonlu) -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-64 h-80 nb-box-purple rounded-3xl flex flex-col items-center justify-between p-6 text-center animate-float shadow-2xl relative">
+                            
+                            <!-- G LOGOSU (Kalkan Yerine Site Rengiyle Uyumlu) -->
+                            <div class="w-20 h-20 bg-[#F5EFE6] text-[#7C3AED] border-4 border-black rounded-2xl flex items-center justify-center font-black text-4xl shadow-[4px_4px_0px_0px_#000] animate-pulse-scale">
+                                G
+                            </div>
+
+                            <div class="space-y-1">
+                                <h3 class="heading-font text-2xl font-black tracking-widest text-white drop-shadow">GNESS AC</h3>
+                                <div class="bg-black text-green-400 px-3 py-1 text-[11px] font-bold rounded border border-green-400 tracking-wider">
+                                    SİSTEM KORUMADA
+                                </div>
+                            </div>
+
+                            <!-- Üst Rozet (Donanım Yasaklama) -->
+                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 nb-box bg-yellow-300 text-black px-3 py-1 text-[10px] font-black whitespace-nowrap shadow-[3px_3px_0px_0px_#000]">
+                                🔒 DONANIM YASAKLAMA SİSTEMİ
+                            </div>
+
+                            <!-- Alt Rozet (Gecikme) -->
+                            <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 nb-box bg-emerald-300 text-black px-3 py-1 text-[10px] font-black whitespace-nowrap shadow-[3px_3px_0px_0px_#000]">
+                                ⚡ %0.1 GECİKME
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ISTATISTIK KARTLARI -->
+        <!-- İSTATİSTİK KARTLARI -->
         <section class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="nb-box p-4 text-center">
                 <div class="heading-font text-3xl font-black text-purple-700">7/24</div>
@@ -291,10 +432,10 @@
                 <div id="iletisim" class="nb-box p-6 bg-white space-y-4">
                     <h3 class="heading-font text-2xl font-black">Hakkımızda</h3>
                     <p class="text-xs text-gray-800 leading-relaxed font-medium">
-                        <strong>gnesssoftware</strong>, Türkiye / İstanbul-Bostancı, Merkez ofisinde kurumsal olarak hizmet veren yenilikçi bir teknoloji şirketidir. Online oyunlar için anti-cheat hile koruma sistemleri geliştirmenin yanı sıra, kurumsal firmalar için profesyonel web sitesi tasarımı ve logo projeleri yürütmektedir.
+                        <strong>gnesssoftware</strong>, Türkiye / İstanbul merkez ofisinde kurumsal olarak hizmet veren yenilikçi bir teknoloji şirketidir. Online oyunlar için anti-cheat hile koruma sistemleri geliştirmenin yanı sıra, kurumsal firmalar için profesyonel web sitesi tasarımı ve logo projeleri yürütmektedir.
                     </p>
                     <div class="pt-2 border-t-2 border-black space-y-2 text-xs font-bold">
-                        <div>📍 <strong>Merkez Ofis:</strong> Bostancı-İstanbul, Türkiye</div>
+                        <div>📍 <strong>Merkez Ofis:</strong> İstanbul, Türkiye</div>
                         <div>📧 <strong>E-Posta:</strong> <a href="mailto:gnesssoftware@outlook.com" class="text-purple-700 underline">gnesssoftware@outlook.com</a></div>
                         <div>📸 <strong>Instagram:</strong> <a href="https://instagram.com/gunessddogdu" target="_blank" class="text-purple-700 underline">@gunessddogdu</a></div>
                     </div>
@@ -316,7 +457,7 @@
     <!-- ALT BİLGİ (FOOTER) -->
     <footer class="bg-black text-white border-t-4 border-black py-8">
         <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold">
-            <div>© 2026 gnesssoftware. Tüm Hakları Saklıdır. designed byGüneşdoğdu</div>
+            <div>© 2026 gnesssoftware. Tüm Hakları Saklıdır.</div>
             <div class="flex gap-4">
                 <a href="mailto:gnesssoftware@outlook.com" class="hover:text-purple-400">E-Posta</a>
                 <a href="https://instagram.com/gunessddogdu" target="_blank" class="hover:text-purple-400">Instagram</a>
@@ -328,7 +469,7 @@
 
     <!-- 1. KAMPANYA & İNDİRİM POPUP -->
     <div id="promoModal" class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
-        <div class="nb-box bg-white max-w-md w-full p-6 relative animate-bounce-once">
+        <div class="nb-box bg-white max-w-md w-full p-6 relative">
             <button onclick="closeModal('promoModal')" class="absolute top-3 right-3 font-black text-xl">✕</button>
             <div class="nb-box bg-yellow-300 text-black font-black px-3 py-1 text-xs inline-block mb-3">🔥 ÖZEL İNDİRİM FIRSATI</div>
             <h3 class="heading-font text-2xl font-black mb-2">%30 NET AÇILIŞ İNDİRİMİ!</h3>
